@@ -1,15 +1,20 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-const RecipeList = ({ recipes }) => {
+const RecipeList = () => {
+    const [recipe, setRecipe] = useState([]);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/recipe')
+            .then(response => response.json())
+            .then(data => setRecipe(data));
+    }, []);
+
     return (
         <div>
-            <h2>Recipes</h2>
-            <h2>Recipes</h2>
+            <h1>Recipes</h1>
             <ul>
-                {recipes.map(recipe => (
-                    <li key={recipe.id}>
-                        <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
-                    </li>
+                {recipe.map(recipe => (
+                    <li key={recipe.id}>{recipe.title}</li>
                 ))}
             </ul>
         </div>

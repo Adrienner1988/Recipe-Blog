@@ -1,25 +1,27 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useParams } from 'react-router-dom';
 
-const RecipeDetail = ({ match }) => {
+const RecipeDetail = () => {
+    const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
-    const { id } = match.params;
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/recipes/${id}/`)
-            .then(response => setRecipe(response.data))
-            .catch(error => console.error('Error fetching recipe', error));
+        fetch(`http://127.0.0.1:8000/api/recipe/${id}/`)
+            .then(response => response.json())
+            .then(data => setRecipe(data));
     }, [id]);
 
     if (!recipe) return <div>Loading...</div>;
 
     return (
         <>
-            <div>
-                <h2>{recipe}</h2>
-                <h3>Ingredients</h3>
-                <p>{recipe}</p>
-            </div>
+        <div>
+            <h1>{recipe.title}</h1>
+            <h3>Ingredients</h3>
+            <p>{recipe.ingredients}</p>
+            <h3>Steps</h3>
+            <p>{recipe.steps}</p>
+        </div>
         </>
     )
 }
