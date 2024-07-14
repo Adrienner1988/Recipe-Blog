@@ -6,15 +6,15 @@ const Nav = () => {
             <nav>
                 <ul>
                     <li>
-                        <NavLink to={"/"}>Home</NavLink>
+                        <NavLink to={'/'}>Home</NavLink>
                     </li>
                     <li>
-                        <NavLink to={"/recipe"}>Recipes</NavLink>
+                        <NavLink to={'/recipes'}>Recipes</NavLink>
                     </li>
                 </ul>
             </nav>
         </>
-    );
-};
+    )
+}
 
 export default Nav;
