@@ -30,7 +30,7 @@ const RecipeList = () => {
       <h1>Recipes</h1>
       <ul>
         {recipes.map((recipe) => (
-          <li key={recipe.id}>
+          <li key={recipe.id} className="recipes-list">
             <Link to={`/recipes/${recipe.id}`} state={{ recipe }}>
               {recipe.title}
             </Link>

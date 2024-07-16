@@ -58,19 +58,19 @@ const RecipeDetail = () => {
   return (
     <div>
       <h1>{recipe.title}</h1>
-      <h3>Ingredients</h3>
+      <h2>Ingredients</h2>
       <ul>
         {ingredientsArray.map((ingredient, index) => (
-          <li key={index}>{ingredient}</li>
+          <li key={index} className="ingredients">{ingredient}</li>
         ))}
       </ul>
-      <h3>Steps</h3>
+      <h2>Steps</h2>
       <ol>
         {stepsArray.map((step, index) => (
-          <li key={index}>{step}</li>
+          <li key={index} className="steps">{step}</li>
         ))}
       </ol>
-      <h3>Comments</h3>
+      <h2>Comments</h2>
       <div>
         {recipe.comments.map((comment) => (
           <div key={comment.id}>{comment.text}</div>
