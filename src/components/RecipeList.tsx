@@ -17,6 +17,7 @@ const RecipeList = () => {
         const response = await fetch("http://127.0.0.1:8000/api/recipes/");
         const data = await response.json();
         setRecipes(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
