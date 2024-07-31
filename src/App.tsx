@@ -4,6 +4,7 @@ import HomePage from "./views/HomePage.tsx";
 import RecipeList from "./components/RecipeList.tsx";
 import RecipeDetail from "./components/RecipeDetail.tsx";
 import Nav from "./components/Nav.tsx";
+import './index.css';
 
 function App() {
   return (
