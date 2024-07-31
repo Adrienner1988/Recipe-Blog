@@ -1,8 +1,8 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./views/HomePage.tsx";
-import RecipeList from "./components/RecipeList.tsx";
-import RecipeDetail from "./components/RecipeDetail.tsx";
+import RecipeList from "./views/RecipeList.tsx";
+import RecipeDetail from "./views/RecipeDetail.tsx";
 import Nav from "./components/Nav.tsx";
 
 function App() {
