@@ -12,7 +12,7 @@ export default {
       darkPlum: "#860a35",
       lightPlum: "#aF2655",
       pink: "#ff49db",
-      green: "#af2655",
+      green: "#a3B763",
       grayDark: "#273444",
       gray: "#8492a6",
       grayLight: "#d3dce6",
