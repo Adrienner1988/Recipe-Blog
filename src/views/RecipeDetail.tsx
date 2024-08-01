@@ -13,6 +13,7 @@ interface Recipe {
   title: string;
   ingredients: string;
   steps: string;
+  image: string;
   comments: Comment[];
 }
 
@@ -56,27 +57,48 @@ const RecipeDetail = () => {
   .split(/\r?\n/).map((item) => item.trim());
 
   return (
-    <div>
+    <>
       <h1>{recipe.title}</h1>
-      <h2>Ingredients</h2>
-      <ul>
-        {ingredientsArray.map((ingredient, index) => (
-          <li key={index} className="ingredients">{ingredient}</li>
-        ))}
-      </ul>
-      <h2>Steps</h2>
-      <ol>
-        {stepsArray.map((step, index) => (
-          <li key={index} className="steps">{step}</li>
-        ))}
-      </ol>
-      <h2>Comments</h2>
+
+      {/* Image Div- thinking to the left of the page */}
       <div>
-        {recipe.comments.map((comment) => (
-          <div key={comment.id}>{comment.text}</div>
-        ))}
+        <img
+          src={recipe.image}
+          alt={recipe.title}
+          style={{ width: "100px", height: "100px" }}
+        />
       </div>
-    </div>
+
+      {/* Ingredients Div- thinking to the right of the page */}
+      <div>
+        <h2>Ingredients</h2>
+        <ul>
+          {ingredientsArray.map((ingredient, index) => (
+            <li key={index} className="ingredients">
+              {ingredient}
+            </li>
+          ))}
+        </ul>
+        <h2>Steps</h2>
+        <ol>
+          {stepsArray.map((step, index) => (
+            <li key={index} className="steps">
+              {step}
+            </li>
+          ))}
+        </ol>
+      </div>
+
+{/* Commend Div- thinking across the bottom of the page */}
+      <div>
+        <h2>Comments</h2>
+        <div>
+          {recipe.comments.map((comment) => (
+            <div key={comment.id}>{comment.text}</div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ interface Recipe {
   title: string;
   ingredients: string[];
   steps: string[];
+  image: string;
 }
 
 const RecipeList = () => {
@@ -32,7 +33,10 @@ const RecipeList = () => {
         {recipes.map((recipe) => (
           <li key={recipe.id} className="recipes-list">
             <Link to={`/recipes/${recipe.id}`} state={{ recipe }}>
-              {recipe.title}
+              <div>
+                <img src={recipe.image} alt={recipe.title} style={{ width: "100px", height: "100px" }} />
+                <p>{recipe.title}</p>
+              </div>
             </Link>
           </li>
         ))}
