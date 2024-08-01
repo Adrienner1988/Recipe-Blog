@@ -14,7 +14,7 @@ const RecipeList = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch("http://3.129.64.184:8000/api/recipes/");
+        const response = await fetch("http://127.0.0.1:8000/api/recipes/");
         const data = await response.json();
         setRecipes(data);
         console.log(data);
