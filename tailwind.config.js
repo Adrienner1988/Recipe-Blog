@@ -28,6 +28,9 @@ export default {
       borderRadius: {
         "4xl": "2rem",
       },
+      height: {
+        "350px": "350px"
+      }
     },
   },
   plugins: [],
