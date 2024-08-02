@@ -27,21 +27,31 @@ const RecipeList = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Recipes</h1>
-      <ul>
+    <>
+      <div className="flex justify-center items-center py-8">
+        <h1 className="text-3xl font-bold p-8 text-lightPlum">Recipes</h1>
+      </div>
+
+      {/* Card Container */}
+      <div className=" card-container flex justify-center items-center flex-wrap gap-6">
         {recipes.map((recipe) => (
-          <li key={recipe.id} className="recipes-list">
+          <div
+            key={recipe.id}
+            className="card flex justify-center items-center flex-col w-80 h-64 bg-green rounded-3xl cursor-pointer transition duration-500 text-grayDark hover:text-darkPlum hover:h-350px"
+          >
             <Link to={`/recipes/${recipe.id}`} state={{ recipe }}>
-              <div>
-                <img src={recipe.image} alt={recipe.title} style={{ width: "100px", height: "100px" }} />
-                <p>{recipe.title}</p>
-              </div>
+              <img
+                className="img rounded-[15px] object-cover mb-2"
+                src={recipe.image}
+                alt={recipe.title}
+                style={{ width: "200px", height: "200px" }}
+              />
+              <p>{recipe.title}</p>
             </Link>
-          </li>
+          </div>
         ))}
-      </ul>
-    </div>
+      </div>
+    </>
   );
 };
 
