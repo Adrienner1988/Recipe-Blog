@@ -11,7 +11,7 @@ const Nav = () => {
             <li className="nav-list">
               <NavLink
                 to={"/"}
-                className="px-3 py-3 rounded-full hover:bg-lightPlum hover:text-green transition-colors duration-300"
+                className="px-3 py-3 rounded-full hover:bg-lightPlum text-grayLight hover:text-green transition-colors duration-300"
               >
                 Home
               </NavLink>
