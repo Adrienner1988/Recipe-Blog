@@ -5,6 +5,7 @@ import RecipeDetail from "./views/RecipeDetail.tsx";
 import Nav from "./components/Nav.tsx";
 import './index.css';
 import AddRecipe from "./views/AddRecipe.tsx";
+import Footer from "./components/Footer.tsx";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/recipes/:pk" element={<RecipeDetail />} />
         <Route path="/add" element={<AddRecipe />} />
       </Routes>
+      <Footer />
     </>
   );
 }
