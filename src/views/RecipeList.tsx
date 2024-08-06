@@ -37,13 +37,17 @@ const RecipeList = () => {
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="card relative w-80 h-64 bg-green rounded-3xl cursor-pointer transition-all duration-500 hover:h-[300px] overflow-hidden"
+            className="card relative w-96 h-64 bg-green rounded-3xl cursor-pointer transition-all duration-500 hover:h-[300px] overflow-hidden"
           >
             <Link
               to={`/recipes/${recipe.id}`}
               state={{ recipe }}
               className="flex flex-col h-full"
             >
+              {" "}
+              <p className="mt-2 mb-2 text-center  text-sm font-semibold text-grayDark hover:text-lightPlum">
+                {recipe.title}
+              </p>
               <div className="relative w-full h-full flex items-center justify-center">
                 <img
                   className="rounded-[15px] object-cover transition-transform duration-500 hover:scale-90 shadow-custom-light hover:shadow-custom-dark"
@@ -52,9 +56,6 @@ const RecipeList = () => {
                   style={{ width: "200px", height: "200px" }}
                 />
               </div>
-              <p className="mt-2 mb-2 text-center text-grayDark hover:text-lightPlum">
-                {recipe.title}
-              </p>
             </Link>
           </div>
         ))}
