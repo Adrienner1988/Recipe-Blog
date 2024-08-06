@@ -18,7 +18,7 @@ export default {
       grayLight: "#d3dce6",
     },
     fontFamily: {
-      eduHand: ["Edu AU VIC WA NT Hand", "cursive"],
+      playFair: ["Playfair Display", "serif"],
     },
     extend: {
       spacing: {
