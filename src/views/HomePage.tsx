@@ -44,9 +44,9 @@ const HomePage = () => {
       </section>
 
       <section>
-        <h1 className="text-3xl font-bold p-8 text-lightPlum ">
+        <h2 className="text-3xl font-bold p-8 text-lightPlum ">
           Latest Recipes
-        </h1>
+        </h2>
         <div>
           <img src="" />
           <img src="" />

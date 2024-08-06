@@ -58,43 +58,52 @@ const RecipeDetail = () => {
 
   return (
     <>
-      <h1>{recipe.title}</h1>
+      <h2 className="text-3xl font-bold m-4 text-center text-green uppercase">
+        {recipe.title}
+      </h2>
 
-      {/* Image Div- thinking to the left of the page */}
-      <div>
-        <img
-          src={recipe.image}
-          alt={recipe.title}
-          style={{ width: "100px", height: "100px" }}
-        />
+      <div
+        id="flexbox-container"
+        className="flex flex-col md:flex-row items-start gap-4 p-4"
+      >
+        {/* Image Div- thinking to the left of the page */}
+        <div className="w-1/3 md:w-2/5 flex-shrink-0">
+          <img
+            src={recipe.image}
+            alt={recipe.title}
+            className="w-full h-full shadow-custom-light"
+          />
+        </div>
+
+        {/* Ingredients Div- thinking to the right of the page */}
+        <div className="flex-grow">
+          <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
+          <ul>
+            {ingredientsArray.map((ingredient, index) => (
+              <li key={index} className="ingredients mb-2 font-medium">
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+          <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
+          <ol className="list-decimal list-inside font-bold">
+            {stepsArray.map((step, index) => (
+              <li key={index} className="steps mb-2">
+                {step}
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
 
-      {/* Ingredients Div- thinking to the right of the page */}
+      {/* Commend Div- thinking across the bottom of the page */}
       <div>
-        <h2>Ingredients</h2>
-        <ul>
-          {ingredientsArray.map((ingredient, index) => (
-            <li key={index} className="ingredients">
-              {ingredient}
-            </li>
-          ))}
-        </ul>
-        <h2>Steps</h2>
-        <ol>
-          {stepsArray.map((step, index) => (
-            <li key={index} className="steps">
-              {step}
-            </li>
-          ))}
-        </ol>
-      </div>
-
-{/* Commend Div- thinking across the bottom of the page */}
-      <div>
-        <h2>Comments</h2>
+        <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum text-center">
+          Comments
+        </h2>
         <div>
           {recipe.comments.map((comment) => (
-            <div key={comment.id}>{comment.text}</div>
+            <div key={comment.id} className="border-4 border-double border-green m-8 p-6 shadow-custom-light">{comment.text}</div>
           ))}
         </div>
       </div>
