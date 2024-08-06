@@ -28,7 +28,7 @@ const HomePage = () => {
       </section>
 
       <section>
-        <div className="bg-darkPlum p-8">
+        <div className="bg-lightPlum p-8">
           <h2 className="text-3xl font-bold m-0 text-center text-green uppercase">
             About
           </h2>

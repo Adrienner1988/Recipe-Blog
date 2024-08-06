@@ -5,7 +5,7 @@ import { SlSocialGoogle } from "react-icons/sl";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-darkPlum text-green text-lg p-1 mt-10">
+      <footer className="bg-darkPlum text-green text-lg p-2 mt-10">
         <div className="flex flex-col items-center space-y-2">
           <p className="text-center mb-1">
             {new Date().getFullYear()} Recipe Rainbow. All rights reserved.
