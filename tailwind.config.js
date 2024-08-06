@@ -30,7 +30,11 @@ export default {
       },
       height: {
         "350px": "350px"
-      }
+      },
+      boxShadow: {
+        'custom-light': '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        'custom-dark': '0px 6px 12px rgba(0, 0, 0, 0.2)',
+      },
     },
   },
   plugins: [],
