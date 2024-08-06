@@ -24,6 +24,14 @@ const Nav = () => {
                 Recipes
               </NavLink>
             </li>
+            <li className="nav-list">
+              <NavLink
+                to={"/add"}
+                className="px-3 py-3 rounded-full hover:bg-lightPlum hover:text-green transition-colors duration-300"
+              >
+                Add Yours
+              </NavLink>
+            </li>
           </div>
         </ul>
       </nav>

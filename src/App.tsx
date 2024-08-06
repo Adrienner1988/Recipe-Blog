@@ -4,6 +4,7 @@ import RecipeList from "./views/RecipeList.tsx";
 import RecipeDetail from "./views/RecipeDetail.tsx";
 import Nav from "./components/Nav.tsx";
 import './index.css';
+import AddRecipe from "./views/AddRecipe.tsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/recipes" element={<RecipeList />} />
         <Route path="/recipes/:pk" element={<RecipeDetail />} />
+        <Route path="/add" element={<AddRecipe />} />
       </Routes>
     </>
   );
