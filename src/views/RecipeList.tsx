@@ -33,20 +33,28 @@ const RecipeList = () => {
       </div>
 
       {/* Card Container */}
-      <div className=" card-container flex justify-center items-center flex-wrap gap-6">
+      <div className="card-container flex justify-center items-center flex-wrap gap-6">
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="card flex justify-center items-center flex-col w-80 h-64 bg-green rounded-3xl cursor-pointer transition duration-500 text-grayDark hover:text-darkPlum hover:h-350px"
+            className="card relative w-80 h-64 bg-green rounded-3xl cursor-pointer transition-all duration-500 hover:h-[300px] overflow-hidden"
           >
-            <Link to={`/recipes/${recipe.id}`} state={{ recipe }}>
-              <img
-                className="img rounded-[15px] object-cover mb-2"
-                src={recipe.image}
-                alt={recipe.title}
-                style={{ width: "200px", height: "200px" }}
-              />
-              <p>{recipe.title}</p>
+            <Link
+              to={`/recipes/${recipe.id}`}
+              state={{ recipe }}
+              className="flex flex-col h-full"
+            >
+              <div className="relative w-full h-full flex items-center justify-center">
+                <img
+                  className="rounded-[15px] object-cover transition-transform duration-500 hover:scale-90 shadow-custom-light hover:shadow-custom-dark"
+                  src={recipe.image}
+                  alt={recipe.title}
+                  style={{ width: "200px", height: "200px" }}
+                />
+              </div>
+              <p className="mt-2 mb-2 text-center text-grayDark hover:text-lightPlum">
+                {recipe.title}
+              </p>
             </Link>
           </div>
         ))}
