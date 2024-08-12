@@ -63,7 +63,7 @@ const RecipeList = () => {
     <>
       {/* Title of the page container */}
       <div className="flex justify-center items-center py-8">
-        <h1 className="text-3xl font-bold p-8 text-lightPlum">Recipes</h1>
+        <h1 className="text-3xl font-bold p-1 text-lightPlum">Recipes</h1>
       </div>
 
       {/* Search bar container */}
