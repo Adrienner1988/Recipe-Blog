@@ -78,7 +78,7 @@ const RecipeDetail = () => {
         {/* Ingredients Div- thinking to the right of the page */}
         <div className="flex-grow">
           <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
-          <ul className="list-disc list-inside">
+          <ul className="list-none p-0">
             {ingredientsArray.map((ingredient, index) => (
               <li key={index} className="ingredients mb-2 font-medium">
                 {ingredient}
@@ -103,7 +103,12 @@ const RecipeDetail = () => {
         </h2>
         <div>
           {recipe.comments.map((comment) => (
-            <div key={comment.id} className="border-4 border-double border-green m-8 p-6 shadow-custom-light">{comment.text}</div>
+            <div
+              key={comment.id}
+              className="border-4 border-double border-green m-8 p-6 shadow-custom-light"
+            >
+              {comment.text}
+            </div>
           ))}
         </div>
       </div>
