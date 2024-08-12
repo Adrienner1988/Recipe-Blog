@@ -16,20 +16,20 @@ const SearchBar = ({
   };
 
   return (
-    <div>
+    <div className="mb-8 cursor-text">
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Search by title..."
-        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-1 mr-2"
+        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-2 mr-2"
       />
       <input
         type="text"
         value={ingredient}
         onChange={(e) => setIngredient(e.target.value)}
         placeholder="Search by ingredient..."
-        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-1 mr-2"
+        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-2 mr-2"
       />
       {/* <input
         type="text"
@@ -37,7 +37,12 @@ const SearchBar = ({
         onChange={(e) => setCategory(e.target.value)}
         placeholder="Search by category..."
       /> */}
-      <button onClick={handleSearch}>Search</button>
+      <button
+        onClick={handleSearch}
+        className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
+      >
+        Search
+      </button>
     </div>
   );
 };
