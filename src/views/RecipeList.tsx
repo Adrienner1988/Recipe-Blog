@@ -74,7 +74,7 @@ const RecipeList = () => {
       {/* Error message container */}
       {errorMessage && (
         <div className="flex justify-center items-center py-8">
-          <p className="text-red-500">{errorMessage}</p>
+          <p className="text-grayDark">{errorMessage}</p>
         </div>
       )}
 
