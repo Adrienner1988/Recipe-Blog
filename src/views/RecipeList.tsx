@@ -16,7 +16,7 @@ const RecipeList = () => {
     title?: string;
     ingredient?: string;
   }>({});
-  
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -29,13 +29,26 @@ const RecipeList = () => {
         const response = await fetch(
           `http://127.0.0.1:8000/api/recipes/search?${queryString}`
         );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch recipes");
+        }
+
         const data = await response.json();
         setRecipes(data);
-        console.log(data);
+
+        // Check if the returned data is empty and set an error message if it is
+        if (data.length === 0) {
+          setErrorMessage("No recipes found matching your criteria.");
+        } else {
+          setErrorMessage(null);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
+        setErrorMessage("An error occurred while fetching recipes.");
       }
     };
+
     getData();
   }, [queries]);
 
@@ -44,7 +57,6 @@ const RecipeList = () => {
     ingredient?: string;
   }) => {
     setQueries(searchCriteria);
-    console.log("Search Clicked", searchCriteria);
   };
 
   return (
@@ -58,6 +70,13 @@ const RecipeList = () => {
       <div className="flex justify-center items-center py-8">
         <SearchBar onSearch={handleSearch} />
       </div>
+
+      {/* Error message container */}
+      {errorMessage && (
+        <div className="flex justify-center items-center py-8">
+          <p className="text-red-500">{errorMessage}</p>
+        </div>
+      )}
 
       {/* Card Container */}
       <div className="card-container flex justify-center items-center flex-wrap gap-6">
