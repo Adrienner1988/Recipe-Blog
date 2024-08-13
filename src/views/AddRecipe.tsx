@@ -36,7 +36,7 @@ const AddRecipe = () => {
         <h2>Add Recipe</h2>
       </div>
 
-      <div className="border-4 border-solid">
+      <div className="flex justify-center">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -44,22 +44,27 @@ const AddRecipe = () => {
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Title"
             required
+            className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl w-full p-2 mb-2"
           />
           <textarea
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
             placeholder="Ingredients"
             required
+            className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl w-full p-2 mb-2"
           />
           <textarea
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
             placeholder="Steps"
             required
+            className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl w-full p-2 mb-2"
           />
           <input
             type="file"
             onChange={(e) => setImage(e.target.files?.[0] || null)}
+            required
+            className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl w-full p-2 mb-2"
           />
           <button
             type="submit"
