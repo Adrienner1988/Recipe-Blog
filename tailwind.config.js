@@ -18,7 +18,7 @@ export default {
       grayLight: "#d3dce6",
     },
     fontFamily: {
-      playFair: ["Playfair Display", "serif"],
+      Montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
       spacing: {
@@ -29,11 +29,11 @@ export default {
         "4xl": "2rem",
       },
       height: {
-        "350px": "350px"
+        "350px": "350px",
       },
       boxShadow: {
-        'custom-light': '0px 4px 8px rgba(0, 0, 0, 0.1)',
-        'custom-dark': '0px 6px 12px rgba(0, 0, 0, 0.2)',
+        "custom-light": "0px 4px 8px rgba(0, 0, 0, 0.1)",
+        "custom-dark": "0px 6px 12px rgba(0, 0, 0, 0.2)",
       },
     },
   },
