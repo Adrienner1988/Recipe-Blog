@@ -61,7 +61,12 @@ const AddRecipe = () => {
             type="file"
             onChange={(e) => setImage(e.target.files?.[0] || null)}
           />
-          <button type="submit">Submit</button>
+          <button
+            type="submit"
+            className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </>

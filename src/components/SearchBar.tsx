@@ -7,12 +7,12 @@ const SearchBar = ({
 }) => {
   const [title, setTitle] = useState("");
   const [ingredient, setIngredient] = useState("");
-//   const [category, setCategory] = useState("");
+  //   const [category, setCategory] = useState("");
 
   const handleSearch = () => {
-    const queries = { title, ingredient, };
+    const queries = { title, ingredient };
     onSearch(queries);
-    console.log("Search Clicked")
+    console.log("Search Clicked");
   };
 
   return (
@@ -37,12 +37,7 @@ const SearchBar = ({
         onChange={(e) => setCategory(e.target.value)}
         placeholder="Search by category..."
       /> */}
-      <button
-        onClick={handleSearch}
-        className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
-      >
-        Search
-      </button>
+      <button onClick={handleSearch}>Search</button>
     </div>
   );
 };
