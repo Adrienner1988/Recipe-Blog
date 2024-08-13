@@ -23,18 +23,20 @@ const AddRecipe = () => {
         body: formData,
       });
       console.log("formData Submitted");
-    alert(`Recipe Submitted`);
-    navigate("/recipes/");
+      alert(`Recipe Submitted`);
+      navigate("/recipes/");
     } catch (error) {
       console.error("Error submitting recipe", error);
-    
     }
   };
 
   return (
     <>
       <div>
-        <h1>Add Recipe</h1>
+        <h2>Add Recipe</h2>
+      </div>
+
+      <div className="border-4 border-solid">
         <form onSubmit={handleSubmit}>
           <input
             type="text"
