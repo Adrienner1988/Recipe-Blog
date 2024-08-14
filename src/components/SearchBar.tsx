@@ -3,6 +3,7 @@ import { useState } from "react";
 interface Category {
   id: number;
   name: string;
+  image: string;
 }
 
 interface SearchBarProps {

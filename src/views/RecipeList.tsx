@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
-import { useLocation } from "react-router-dom";
 
 interface Recipe {
   id: number;
@@ -30,17 +29,10 @@ const RecipeList = () => {
   const location = useLocation();
 
   useEffect(() => {
-      const params = new URLSearchParams(location.search);
-      const category = params.get("category");
-
+    // Fetching recipes based on queries
     const getData = async () => {
       try {
-         const combinedQueries = {
-        ...queries,
-        category: category || queries.category,
-         };
-
-        const queryString = Object.entries(combinedQueries)
+        const queryString = Object.entries(queries)
           .filter(([_, value]) => value) // Only include non-empty values
           .map(([key, value]) => `${key}=${encodeURIComponent(value || "")}`)
           .join("&");
@@ -52,10 +44,9 @@ const RecipeList = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch recipes");
         }
-
         const data = await response.json();
         setRecipes(data);
-        console.log(data, "Recipe ingredient fetch:")
+        console.log(data, "Recipe ingredient fetch:");
         // Check if the returned data is empty and set an error message if it is
         if (data.length === 0) {
           setErrorMessage("No recipes found matching your criteria.");
@@ -69,8 +60,9 @@ const RecipeList = () => {
     };
 
     getData();
-  }, [queries, location.search]);
+  }, [queries]);
 
+  // Fetching recipes based on categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -78,7 +70,7 @@ const RecipeList = () => {
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data);
-        console.log(data, "Recipe category fetch:")
+        console.log(data, "Recipe category fetch:");
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -87,6 +79,17 @@ const RecipeList = () => {
     fetchCategories();
   }, []);
 
+  // Update queries when location changes
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get("category");
+    setQueries((prevQueries) => ({
+      ...prevQueries,
+      category: category || undefined,
+    }));
+  }, [location.search]);
+
+  // Handle Search logic
   const handleSearch = (searchCriteria: {
     title?: string;
     ingredient?: string;
