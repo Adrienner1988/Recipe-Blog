@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
+import { useLocation } from "react-router-dom";
 
 interface Recipe {
   id: number;
@@ -26,11 +27,20 @@ const RecipeList = () => {
   }>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const location = useLocation();
 
   useEffect(() => {
+      const params = new URLSearchParams(location.search);
+      const category = params.get("category");
+
     const getData = async () => {
       try {
-        const queryString = Object.entries(queries)
+         const combinedQueries = {
+        ...queries,
+        category: category || queries.category,
+         };
+
+        const queryString = Object.entries(combinedQueries)
           .filter(([_, value]) => value) // Only include non-empty values
           .map(([key, value]) => `${key}=${encodeURIComponent(value || "")}`)
           .join("&");
@@ -59,7 +69,7 @@ const RecipeList = () => {
     };
 
     getData();
-  }, [queries]);
+  }, [queries, location.search]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -101,6 +111,14 @@ const RecipeList = () => {
       {errorMessage && (
         <div className="flex justify-center items-center py-8">
           <p className="text-grayDark">{errorMessage}</p>
+          <div className="recipes-container">
+            {recipes.map((recipe) => (
+              <div key={recipe.id}>
+                <img src={recipe.image} alt={recipe.title} />
+                <h2>{recipe.title}</h2>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

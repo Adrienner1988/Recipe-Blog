@@ -1,6 +1,31 @@
 import CategoryList from "../components/CategoryList";
+import { useState, useEffect } from "react";
+
+interface Category {
+  id: number;
+  name: string;
+  image: string;
+}
 
 const HomePage = () => {
+ const [categories, setCategories] = useState<Category[]>([]);
+
+ useEffect(() => {
+   const fetchCategories = async () => {
+     try {
+       const response = await fetch("http://127.0.0.1:8000/api/categories/");
+       if (!response.ok) throw new Error("Failed to fetch categories");
+       const data = await response.json();
+       setCategories(data);
+       console.log(data, "Fetched categories:")
+     } catch (error) {
+       console.error("Error fetching categories:", error);
+     }
+   };
+
+   fetchCategories();
+ }, []);
+
   return (
     <>
       <section>
@@ -50,7 +75,7 @@ const HomePage = () => {
           Recipe Categories
         </h2>
         <div>
-          {/* <CategoryList /> */}
+          <CategoryList categories={categories}/>
         </div>
       </section>
     </>
