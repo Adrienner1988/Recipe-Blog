@@ -1,3 +1,5 @@
+import CategoryList from "../components/CategoryList";
+
 const HomePage = () => {
   return (
     <>
@@ -17,7 +19,7 @@ const HomePage = () => {
           {/* Overlay Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-center">
             <h1 className="text-6xl font-bold underline m-0 p-8 max-w-80px text-center text-grayLight">
-             Recipe Rainbow
+              Recipe Rainbow
             </h1>
             <p className="text-lg md:text-xl p-2 text-green bg-darkPlum bg-opacity-60 font-semibold">
               Explore and enjoy a variety of recipes from traditional and modern
@@ -45,12 +47,10 @@ const HomePage = () => {
 
       <section>
         <h2 className="text-3xl font-bold p-8 text-lightPlum ">
-          Latest Recipes
+          Recipe Categories
         </h2>
         <div>
-          <img src="" />
-          <img src="" />
-          <img src="" />
+          {/* <CategoryList /> */}
         </div>
       </section>
     </>

@@ -8,6 +8,13 @@ interface Recipe {
   ingredients: string[];
   steps: string[];
   image?: string;
+  category: Category;
+}
+
+interface Category {
+  id: number;
+  name: string;
+  image: string;
 }
 
 const RecipeList = () => {
@@ -15,8 +22,10 @@ const RecipeList = () => {
   const [queries, setQueries] = useState<{
     title?: string;
     ingredient?: string;
+    category?: string;
   }>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -36,7 +45,7 @@ const RecipeList = () => {
 
         const data = await response.json();
         setRecipes(data);
-
+        console.log(data, "Recipe ingredient fetch:")
         // Check if the returned data is empty and set an error message if it is
         if (data.length === 0) {
           setErrorMessage("No recipes found matching your criteria.");
@@ -52,9 +61,26 @@ const RecipeList = () => {
     getData();
   }, [queries]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/categories/");
+        if (!response.ok) throw new Error("Failed to fetch categories");
+        const data = await response.json();
+        setCategories(data);
+        console.log(data, "Recipe category fetch:")
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const handleSearch = (searchCriteria: {
     title?: string;
     ingredient?: string;
+    category?: string;
   }) => {
     setQueries(searchCriteria);
   };
@@ -68,7 +94,7 @@ const RecipeList = () => {
 
       {/* Search bar container */}
       <div className="flex justify-center items-center py-8">
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearch={handleSearch} categories={categories} />
       </div>
 
       {/* Error message container */}

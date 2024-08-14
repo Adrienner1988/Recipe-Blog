@@ -58,6 +58,7 @@ const RecipeDetail = () => {
 
   return (
     <>
+    {/* Need to add prep time, cook time, total time serving category */}
       <h2 className="text-3xl font-bold m-4 text-center text-green uppercase">
         {recipe.title}
       </h2>
