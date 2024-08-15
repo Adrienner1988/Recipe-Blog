@@ -13,12 +13,19 @@ interface CategoriesListProps {
 const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
   return (
     <>
-      <div className="flex overflow-x-auto whitespace-nowrap py-4">
+      <div className="text-center m-4">
+        <p className="text-darkPlum font-semibold">
+          Explore your next culinary adventure! Click a category to discover
+          mouth-watering recipes.
+        </p>
+      </div>
+
+      <div className="flex overflow-x-auto whitespace-nowrap py-4 px-6">
         {categories.map((category) => (
           <Link
             key={category.id}
             to={`/recipes?category=${category.id}`}
-            className="relative inline-block w-48 h-48 mx-2 rounded-full overflow-hidden shadow-custom-light transition-transform duration-300 hover:scale-105 group"
+            className="relative inline-block w-48 h-48 mx-2 rounded-full overflow-hidden shadow-custom-light transition-transform duration-300 hover:scale-105 group hover:shadow-custom-dark"
           >
             <img
               src={category.image}

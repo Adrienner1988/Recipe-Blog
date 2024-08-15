@@ -71,7 +71,7 @@ const HomePage = () => {
       </section>
 
       <section>
-        <h2 className="text-3xl font-bold p-8 text-lightPlum ">
+        <h2 className="text-3xl font-bold p-4 text-lightPlum ">
           Recipe Categories
         </h2>
         <div>
