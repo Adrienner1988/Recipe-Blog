@@ -46,13 +46,10 @@ const HomePage = () => {
             <h1 className="text-6xl font-bold underline m-0 p-8 max-w-80px text-center text-grayLight">
               Recipe Rainbow
             </h1>
-            <p className="text-lg md:text-xl p-2 text-green bg-darkPlum bg-opacity-60 font-semibold">
-              Explore and enjoy a variety of recipes from traditional and modern
-              culinary worlds.
-            </p>
           </div>
         </div>
       </section>
+      
 
       <section>
         <div className="bg-lightPlum p-8">
