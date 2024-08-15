@@ -15,6 +15,10 @@ interface Recipe {
   steps: string;
   image: string;
   comments: Comment[];
+  prep: string;
+  cook: string;
+  servings: string;
+  category: any;
 }
 
 const RecipeDetail = () => {
@@ -58,10 +62,27 @@ const RecipeDetail = () => {
 
   return (
     <>
-    {/* Need to add prep time, cook time, total time serving category */}
       <h2 className="text-3xl font-bold m-4 text-center text-green uppercase">
         {recipe.title}
       </h2>
+
+      {/* Add prep time, cook time, servings, and category */}
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
+        <div className="text-white p-4 rounded-lg shadow-md">
+          <p>
+            <strong>Prep Time:</strong> {recipe.prep}
+          </p>
+          <p>
+            <strong>Cook Time:</strong> {recipe.cook}
+          </p>
+          <p>
+            <strong>Servings:</strong> {recipe.servings}
+          </p>
+          <p>
+            <strong>Category:</strong> {recipe.category.name}
+          </p>
+        </div>
+      </div>
 
       <div
         id="flexbox-container"

@@ -15,6 +15,9 @@ const AddRecipe = () => {
     formData.append("title", title);
     formData.append("ingredients", ingredients);
     formData.append("steps", steps);
+    // formData.append("prep", prep);
+    // formData.append("cook", cook);
+    // formData.append("servings", servings);
     if (image) formData.append("image", image);
 
     try {
@@ -46,6 +49,14 @@ const AddRecipe = () => {
             required
             className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl w-full p-2 mb-2"
           />
+          {/* <input
+            type="text"
+            value={prep}
+            onChange={(event) => setTitle(event.target.value)}
+            placeholder="Title"
+            required
+            className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl w-full p-2 mb-2"
+          /> */}
           <textarea
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
