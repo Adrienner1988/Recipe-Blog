@@ -66,6 +66,13 @@ const RecipeDetail = () => {
         {recipe.title}
       </h2>
 
+      <div className="text-center mt-4">
+        <p className="text-lightPlum font-semibold mb-2">
+          Ready to cook up something amazing? Let’s dive into the delicious
+          details!
+        </p>
+      </div>
+
       {/* Add prep time, cook time, servings, and category */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
         <div className="text-white p-4 rounded-lg shadow-md">
