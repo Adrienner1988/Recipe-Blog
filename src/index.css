@@ -10,6 +10,6 @@
     @apply border-2 border-solid border-darkPlum transition-all duration-500 hover:border-lightPlum rounded-xl w-full p-2 mb-2 shadow-custom-light;
   }
   button {
-    @apply border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer shadow-custom-light;
+    @apply border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer shadow-custom-light hover:scale-105;
   }
 }

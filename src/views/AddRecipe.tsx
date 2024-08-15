@@ -39,8 +39,16 @@ const AddRecipe = () => {
 
   return (
     <>
-      <div>
+    <div className="bg-grayLight"></div>
+      <div >
         <h2>Add Your Recipe</h2>
+      </div>
+
+      <div className="text-center m-4">
+        <p className="text-darkPlum font-semibold">
+          Thank you for contributing to our community! Your recipe helps make
+          this place more delicious.
+        </p>
       </div>
 
       <div className="flex justify-center">
@@ -88,19 +96,17 @@ const AddRecipe = () => {
               onChange={(e) => setSteps(e.target.value)}
               placeholder="Steps, add one empty line between each new step."
               required
-    
             />
             <input
               type="file"
               onChange={(e) => setImage(e.target.files?.[0] || null)}
               required
-              className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-lightPlum rounded-xl w-full p-2 mb-2"
             />
             <button
               type="submit"
               className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
             >
-              Submit
+              Share the YUM!
             </button>
           </form>
         </div>
