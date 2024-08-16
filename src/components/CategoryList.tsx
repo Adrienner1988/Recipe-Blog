@@ -25,7 +25,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
           <Link
             key={category.id}
             to={`/recipes?category=${category.id}`}
-            className="relative inline-block w-48 h-48 mx-2 rounded-full overflow-hidden shadow-custom-light transition-transform duration-300 hover:scale-105 group hover:shadow-custom-dark"
+            className="relative inline-block w-36 h-32 mx-2 rounded-full overflow-hidden shadow-custom-light transition-transform duration-300 hover:scale-105 group hover:shadow-custom-dark"
           >
             <img
               src={category.image}
