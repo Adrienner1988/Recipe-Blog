@@ -6,7 +6,7 @@
   h2 {
     @apply text-3xl font-bold m-4 text-center text-lightPlum uppercase;
   }
-  input, textarea {
+  input, textarea, select {
     @apply border-2 border-solid border-darkPlum transition-all duration-500 hover:border-lightPlum rounded-xl w-full p-2 mb-2 shadow-custom-light;
   }
   button {

@@ -1,5 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+interface Category {
+  id: number;
+  name: string;
+}
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
@@ -9,7 +14,9 @@ const AddRecipe = () => {
   const [prep, setPrep] = useState("");
   const [cook, setCook] = useState("");
   const [servings, setServings] = useState("");
-  
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -22,6 +29,8 @@ const AddRecipe = () => {
     formData.append("prep", prep);
     formData.append("cook", cook);
     formData.append("servings", servings);
+    if (selectedCategory)
+      formData.append("categories", String(selectedCategory));
     if (image) formData.append("image", image);
 
     try {
@@ -30,6 +39,9 @@ const AddRecipe = () => {
         body: formData,
       });
       console.log("formData Submitted");
+      formData.forEach((value, key) => {
+        console.log(key, value);
+      });
       alert(`Recipe Submitted`);
       navigate("/recipes/");
     } catch (error) {
@@ -37,10 +49,24 @@ const AddRecipe = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/categories/");
+        const data = await response.json();
+        setCategories(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching Categories, error");
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <>
-    <div className="bg-grayLight"></div>
-      <div >
+      <div className="bg-grayLight"></div>
+      <div>
         <h2>Add Your Recipe</h2>
       </div>
 
@@ -68,7 +94,7 @@ const AddRecipe = () => {
               type="text"
               value={prep}
               onChange={(event) => setPrep(event.target.value)}
-              placeholder="Title"
+              placeholder="Prep Time"
               required
             />
             <input
@@ -85,6 +111,18 @@ const AddRecipe = () => {
               placeholder="Servings"
               required
             />
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(parseInt(e.target.value))}
+              required
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
             <textarea
               value={ingredients}
               onChange={(e) => setIngredients(e.target.value)}
