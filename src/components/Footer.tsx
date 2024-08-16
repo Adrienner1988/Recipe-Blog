@@ -7,9 +7,6 @@ const Footer = () => {
     <>
       <footer className="bg-darkPlum text-green text-lg p-2 mt-10">
         <div className="flex flex-col items-center space-y-2">
-          <p className="text-center mb-1">&copy;
-            {new Date().getFullYear()} Recipe Rainbow. All rights reserved.
-          </p>
           <p className="text-center mb-1">Get in touch</p>
           {/* Social icons */}
           <div className="flex space-x-4 mt-2">
@@ -19,7 +16,10 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="hover:text-grayDark focus:text-blue-500"
             >
-              <SlSocialLinkedin size={30} className="transition-colors duration-300"/>
+              <SlSocialLinkedin
+                size={30}
+                className="transition-colors duration-300"
+              />
             </a>
             <a
               href="https://github.com/Adrienner1988"
@@ -27,16 +27,26 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="hover:text-grayDark"
             >
-              <SlSocialGithub size={30} className="transition-colors duration-300"/>
+              <SlSocialGithub
+                size={30}
+                className="transition-colors duration-300"
+              />
             </a>
             <a
               href="mailto:adriennerdaniels@gmail.com"
               target="_blank"
               className="hover:text-grayDark"
             >
-              <SlSocialGoogle size={30} className="transition-colors duration-300"/>
+              <SlSocialGoogle
+                size={30}
+                className="transition-colors duration-300"
+              />
             </a>
           </div>
+          <p className="text-center mb-1">
+            &copy;
+            {new Date().getFullYear()} Recipe Rainbow. All rights reserved.
+          </p>
         </div>
       </footer>
     </>
