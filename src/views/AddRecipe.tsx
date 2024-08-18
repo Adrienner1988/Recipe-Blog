@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 interface Category {
   id: number;
   name: string;
+  image: string;
 }
 
 interface TimeOption {

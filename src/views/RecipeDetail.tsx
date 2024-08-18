@@ -15,9 +15,9 @@ interface Recipe {
   steps: string;
   image: string;
   comments: Comment[];
-  prep: string;
-  cook: string;
-  servings: string;
+  prep: any;
+  cook: any;
+  servings: any;
   category: any;
 }
 
@@ -77,13 +77,13 @@ const RecipeDetail = () => {
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
         <div className="text-white p-4 rounded-lg shadow-md">
           <p>
-            <strong>Prep Time:</strong> {recipe.prep}
+            <strong>Prep Time:</strong> {recipe.prep.value}
           </p>
           <p>
-            <strong>Cook Time:</strong> {recipe.cook}
+            <strong>Cook Time:</strong> {recipe.cook.value}
           </p>
           <p>
-            <strong>Servings:</strong> {recipe.servings}
+            <strong>Servings:</strong> {recipe.servings.value}
           </p>
           <p>
             <strong>Category:</strong> {recipe.category.name}
