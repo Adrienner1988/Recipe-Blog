@@ -6,14 +6,27 @@ interface Category {
   name: string;
 }
 
+interface TimeOption {
+  id: number;
+  value: string;
+}
+
+interface Servings {
+  id: number;
+  size: string;
+}
+
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [prep, setPrep] = useState("");
-  const [cook, setCook] = useState("");
-  const [servings, setServings] = useState("");
+  const [prep, setPrep] = useState<number>(0);
+  const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
+  const [cook, setCook] = useState<number>(0);
+  const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
+  const [servings, setServings] = useState<number>(0);
+  const [servingOptions, setServingOptions] = useState<Servings[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
@@ -26,9 +39,9 @@ const AddRecipe = () => {
     formData.append("title", title);
     formData.append("ingredients", ingredients);
     formData.append("steps", steps);
-    formData.append("prep", prep);
-    formData.append("cook", cook);
-    formData.append("servings", servings);
+    formData.append("prep", String(prep));
+    formData.append("cook", String(cook));
+    formData.append("servings", String(servings));
     if (selectedCategory)
       formData.append("categories", String(selectedCategory));
     if (image) formData.append("image", image);
@@ -49,6 +62,7 @@ const AddRecipe = () => {
     }
   };
 
+  // Fetching the catagories, pre, cook, and servings options
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -57,10 +71,38 @@ const AddRecipe = () => {
         setCategories(data);
         console.log(data);
       } catch (error) {
-        console.error("Error fetching Categories, error");
+        console.error("Error fetching Categories", error);
       }
     };
+
+    const fetchOptions = async () => {
+      try {
+        const prepResponse = await fetch(
+          "http://127.0.0.1:8000/api/prep-options/"
+        );
+        const prepData = await prepResponse.json();
+        setPrepOptions(prepData);
+
+        const cookResponse = await fetch(
+          "http://127.0.0.1:8000/api/cook-options/"
+        );
+        const cookData = await cookResponse.json();
+        setCookOptions(prepData);
+
+        const servingResponse = await fetch(
+          "http://127.0.0.1:8000/api/servings-options/"
+        );
+        const servingData = await servingResponse.json();
+        setServingOptions(servingData);
+
+        console.log(prepData, cookData, servingData);
+      } catch (error) {
+        console.error("Error fetching options", error);
+      }
+    };
+
     fetchCategories();
+    fetchOptions();
   }, []);
 
   return (
@@ -83,6 +125,7 @@ const AddRecipe = () => {
             onSubmit={handleSubmit}
             className="bg-green p-6 rounded-lg shadow-custom-dark"
           >
+            {/* Enter recipe title */}
             <input
               type="text"
               value={title}
@@ -90,30 +133,55 @@ const AddRecipe = () => {
               placeholder="Title"
               required
             />
-            <input
-              type="text"
+
+            {/* Pre time select */}
+            <select
               value={prep}
-              onChange={(event) => setPrep(event.target.value)}
-              placeholder="Prep Time"
+              onChange={(event) => setPrep(Number(event.target.value))}
               required
-            />
-            <input
-              type="text"
+            >
+              <option value="">Select Prep Time</option>
+              {prepOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.value}
+                </option>
+              ))}
+            </select>
+
+            {/* Cook time select */}
+            <select
               value={cook}
-              onChange={(event) => setCook(event.target.value)}
-              placeholder="Cook Time"
+              onChange={(event) => setCook(Number(event.target.value))}
               required
-            />
-            <input
-              type="text"
+            >
+              <option value="">Select Cook Time</option>
+              {cookOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.value}
+                </option>
+              ))}
+            </select>
+
+            {/* Servings select */}
+            <select
               value={servings}
-              onChange={(event) => setServings(event.target.value)}
-              placeholder="Servings"
+              onChange={(event) => setServings(Number(event.target.value))}
               required
-            />
+            >
+              <option>Select Servings</option>
+              {servingOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.size}
+                </option>
+              ))}
+            </select>
+
+            {/* Category select */}
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(parseInt(e.target.value))}
+              onChange={(event) =>
+                setSelectedCategory(parseInt(event.target.value))
+              }
               required
             >
               <option value="">Select Category</option>
@@ -123,23 +191,31 @@ const AddRecipe = () => {
                 </option>
               ))}
             </select>
+
+            {/* Enter ingredients */}
             <textarea
               value={ingredients}
-              onChange={(e) => setIngredients(e.target.value)}
+              onChange={(event) => setIngredients(event.target.value)}
               placeholder="Ingredients, add each new ingredient to a new line."
               required
             />
+
+            {/* Enter steps */}
             <textarea
               value={steps}
-              onChange={(e) => setSteps(e.target.value)}
+              onChange={(event) => setSteps(event.target.value)}
               placeholder="Steps, add one empty line between each new step."
               required
             />
+
+            {/* Upload image */}
             <input
               type="file"
-              onChange={(e) => setImage(e.target.files?.[0] || null)}
+              onChange={(event) => setImage(event.target.files?.[0] || null)}
               required
             />
+
+            {/* Submit button */}
             <button
               type="submit"
               className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
