@@ -83,7 +83,7 @@ const RecipeDetail = () => {
             <strong>Cook Time:</strong> {recipe.cook.value}
           </p>
           <p>
-            <strong>Servings:</strong> {recipe.servings.value}
+            <strong>Servings:</strong> {recipe.servings.size}
           </p>
           <p>
             <strong>Category:</strong> {recipe.category.name}
