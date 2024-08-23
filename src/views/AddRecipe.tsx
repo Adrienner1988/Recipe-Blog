@@ -9,75 +9,92 @@ interface Category {
 
 interface TimeOption {
   id: number;
-  value: string;
+  time: string;
 }
 
 interface Servings {
   id: number;
-  size: string;
+  serving: string;
 }
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
-  const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState("");
-  const [image, setImage] = useState<File | null>(null);
   const [prep, setPrep] = useState<number>(0);
   const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
   const [cook, setCook] = useState<number>(0);
   const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
   const [servings, setServings] = useState<number>(0);
   const [servingOptions, setServingOptions] = useState<Servings[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const [category, setCategory] = useState<number>(0);
+  const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
+  const [ingredients, setIngredients] = useState("");
+  const [steps, setSteps] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    // Log the values before submission
+    // console.log("Submitting the following values:");
+    // console.log("Title:", title);
+    // console.log("Ingredients:", ingredients);
+    // console.log("Steps:", steps);
+    // console.log("Prep ID:", prep);
+    // console.log("Cook ID:", cook);
+    // console.log("Servings ID:", servings);
+    // console.log("Selected Category ID:", category);
+    // console.log("Image:", image);
+
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("ingredients", ingredients);
-    formData.append("steps", steps);
     formData.append("prep", String(prep));
     formData.append("cook", String(cook));
     formData.append("servings", String(servings));
-    if (selectedCategory)
-      formData.append("categories", String(selectedCategory));
-    if (image) formData.append("image", image);
+    formData.append("category", String(category));
+    formData.append("ingredients", ingredients);
+    formData.append("steps", steps);
+    if (image) {
+      formData.append("image", image);
 
+      
+    }
+    // Log the FormData object
+    console.log("Form Data:", formData);
+    
     try {
-      await fetch("http://127.0.0.1:8000/api/recipes/", {
-        method: "POST",
-        body: formData,
-      });
-      console.log("formData Submitted");
-      formData.forEach((value, key) => {
-        console.log(key, value);
-      });
+      const postDataResponse = await fetch(
+        "http://127.0.0.1:8000/api/recipes/add/",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!postDataResponse.ok) {
+        throw new Error("Failed to submit form");
+      }
+      const result = await postDataResponse.json();
+      console.log("Form submitted successfully:", result);
       alert(`Recipe Submitted`);
-      navigate("/recipes/");
+      navigate("/recipes");
     } catch (error) {
-      console.error("Error submitting recipe", error);
+      console.error("Error submitting recipe:", error);
+      alert(`Form not submitted`);
     }
   };
 
-  // Fetching the catagories, pre, cook, and servings options
+  // Fetching the catagories, prep, cook, and servings options
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/categories/");
-        const data = await response.json();
-        setCategories(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching Categories", error);
-      }
-    };
-
     const fetchOptions = async () => {
       try {
+        const catResponse = await fetch(
+          "http://127.0.0.1:8000/api/categories/"
+        );
+        const catData = await catResponse.json();
+        setCategoryOptions(catData);
+
         const prepResponse = await fetch(
           "http://127.0.0.1:8000/api/prep-options/"
         );
@@ -88,24 +105,22 @@ const AddRecipe = () => {
           "http://127.0.0.1:8000/api/cook-options/"
         );
         const cookData = await cookResponse.json();
-        setCookOptions(prepData);
+        setCookOptions(cookData);
 
-        const servingResponse = await fetch(
+        const servResponse = await fetch(
           "http://127.0.0.1:8000/api/servings-options/"
         );
-        const servingData = await servingResponse.json();
-        setServingOptions(servingData);
+        const servData = await servResponse.json();
+        setServingOptions(servData);
 
-        console.log(prepData, cookData, servingData);
+        console.log(catData, prepData, cookData, servData);
       } catch (error) {
         console.error("Error fetching options", error);
       }
     };
 
-    fetchCategories();
     fetchOptions();
   }, []);
-
   return (
     <>
       <div className="bg-grayLight"></div>
@@ -138,13 +153,13 @@ const AddRecipe = () => {
             {/* Pre time select */}
             <select
               value={prep}
-              onChange={(event) => setPrep(Number(event.target.value))}
+              onChange={(event) => setPrep(parseInt(event.target.value))}
               required
             >
               <option value="">Select Prep Time</option>
-              {prepOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.value}
+              {prepOptions.map((prepData) => (
+                <option key={prepData.id} value={prepData.id}>
+                  {prepData.time}
                 </option>
               ))}
             </select>
@@ -152,13 +167,13 @@ const AddRecipe = () => {
             {/* Cook time select */}
             <select
               value={cook}
-              onChange={(event) => setCook(Number(event.target.value))}
+              onChange={(event) => setCook(parseInt(event.target.value))}
               required
             >
               <option value="">Select Cook Time</option>
-              {cookOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.value}
+              {cookOptions.map((cookData) => (
+                <option key={cookData.id} value={cookData.id}>
+                  {cookData.time}
                 </option>
               ))}
             </select>
@@ -166,29 +181,27 @@ const AddRecipe = () => {
             {/* Servings select */}
             <select
               value={servings}
-              onChange={(event) => setServings(Number(event.target.value))}
+              onChange={(event) => setServings(parseInt(event.target.value))}
               required
             >
-              <option>Select Servings</option>
-              {servingOptions.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.size}
+              <option value="">Select Servings</option>
+              {servingOptions.map((servData) => (
+                <option key={servData.id} value={servData.id}>
+                  {servData.serving}
                 </option>
               ))}
             </select>
 
             {/* Category select */}
             <select
-              value={selectedCategory}
-              onChange={(event) =>
-                setSelectedCategory(parseInt(event.target.value))
-              }
+              value={category}
+              onChange={(event) => setCategory(parseInt(event.target.value))}
               required
             >
               <option value="">Select Category</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
+              {categoryOptions.map((catData) => (
+                <option key={catData.id} value={catData.id}>
+                  {catData.name}
                 </option>
               ))}
             </select>
@@ -205,7 +218,7 @@ const AddRecipe = () => {
             <textarea
               value={steps}
               onChange={(event) => setSteps(event.target.value)}
-              placeholder="Steps, add one empty line between each new step."
+              placeholder="Steps, add each new step to a new line."
               required
             />
 
