@@ -77,13 +77,13 @@ const RecipeDetail = () => {
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
         <div className="text-white p-4 rounded-lg shadow-md">
           <p>
-            <strong>Prep Time:</strong> {recipe.prep.value}
+            <strong>Prep Time:</strong> {recipe.prep.time}
           </p>
           <p>
-            <strong>Cook Time:</strong> {recipe.cook.value}
+            <strong>Cook Time:</strong> {recipe.cook.time}
           </p>
           <p>
-            <strong>Servings:</strong> {recipe.servings.size}
+            <strong>Servings:</strong> {recipe.servings.serving}
           </p>
           <p>
             <strong>Category:</strong> {recipe.category.name}
