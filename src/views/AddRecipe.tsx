@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: number;
@@ -18,74 +18,72 @@ interface Servings {
 }
 
 const AddRecipe = () => {
-  const [title, setTitle] = useState("");
-  const [prep, setPrep] = useState<number>(0);
+  const [formData, setFormData] = useState({
+    title: "",
+    ingredients: "",
+    steps: "",
+    prep: 0,
+    cook: 0,
+    category: 0,
+    servings: 0,
+    image: "",
+  });
+
   const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
-  const [cook, setCook] = useState<number>(0);
-  const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
-  const [servings, setServings] = useState<number>(0);
   const [servingOptions, setServingOptions] = useState<Servings[]>([]);
-  const [category, setCategory] = useState<number>(0);
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
-  const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
 
-  const navigate = useNavigate();
-
+  // Handling the submission
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Log the values before submission
-    // console.log("Submitting the following values:");
-    // console.log("Title:", title);
-    // console.log("Ingredients:", ingredients);
-    // console.log("Steps:", steps);
-    // console.log("Prep ID:", prep);
-    // console.log("Cook ID:", cook);
-    // console.log("Servings ID:", servings);
-    // console.log("Selected Category ID:", category);
-    // console.log("Image:", image);
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("prep", String(prep));
-    formData.append("cook", String(cook));
-    formData.append("servings", String(servings));
-    formData.append("category", String(category));
-    formData.append("ingredients", ingredients);
-    formData.append("steps", steps);
-    if (image) {
-      formData.append("image", image);
-
-      
-    }
-    // Log the FormData object
-    console.log("Form Data:", formData);
-    
+    console.log(formData);
     try {
-      const postDataResponse = await fetch(
-        "http://127.0.0.1:8000/api/recipes/add/",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch("http://127.0.0.1:8000/api/recipes/add/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      if (!postDataResponse.ok) {
-        throw new Error("Failed to submit form");
+      if (!response.ok) {
+        throw new Error("Failed to submit the form");
       }
-      const result = await postDataResponse.json();
+
+      const result = await response.json();
       console.log("Form submitted successfully:", result);
-      alert(`Recipe Submitted`);
-      navigate("/recipes");
     } catch (error) {
-      console.error("Error submitting recipe:", error);
-      alert(`Form not submitted`);
+      console.error("Error submitting form:", error);
     }
   };
 
-  // Fetching the catagories, prep, cook, and servings options
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target as { name: string; value: string };
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleChange2 = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = event.target as { name: string; value: string };
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          image: reader.result as string, // Set the Base64 string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  // Fetching the categories, prep, cook, and servings options
   useEffect(() => {
     const fetchOptions = async () => {
       try {
@@ -121,6 +119,7 @@ const AddRecipe = () => {
 
     fetchOptions();
   }, []);
+
   return (
     <>
       <div className="bg-grayLight"></div>
@@ -143,17 +142,21 @@ const AddRecipe = () => {
           >
             {/* Enter recipe title */}
             <input
+              name="title"
+              id="title"
               type="text"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              value={formData.title}
+              onChange={handleChange}
               placeholder="Title"
               required
             />
 
-            {/* Pre time select */}
+            {/* Prep time select */}
             <select
-              value={prep}
-              onChange={(event) => setPrep(parseInt(event.target.value))}
+              name="prep"
+              id="prep-time"
+              value={formData.prep}
+              onChange={handleChange}
               required
             >
               <option value="">Select Prep Time</option>
@@ -166,8 +169,10 @@ const AddRecipe = () => {
 
             {/* Cook time select */}
             <select
-              value={cook}
-              onChange={(event) => setCook(parseInt(event.target.value))}
+              name="cook"
+              id="cook-time"
+              value={formData.cook}
+              onChange={handleChange}
               required
             >
               <option value="">Select Cook Time</option>
@@ -180,8 +185,10 @@ const AddRecipe = () => {
 
             {/* Servings select */}
             <select
-              value={servings}
-              onChange={(event) => setServings(parseInt(event.target.value))}
+              name="servings"
+              id="servings"
+              value={formData.servings}
+              onChange={handleChange}
               required
             >
               <option value="">Select Servings</option>
@@ -194,8 +201,10 @@ const AddRecipe = () => {
 
             {/* Category select */}
             <select
-              value={category}
-              onChange={(event) => setCategory(parseInt(event.target.value))}
+              name="category"
+              id="category"
+              value={formData.category}
+              onChange={handleChange}
               required
             >
               <option value="">Select Category</option>
@@ -208,24 +217,30 @@ const AddRecipe = () => {
 
             {/* Enter ingredients */}
             <textarea
-              value={ingredients}
-              onChange={(event) => setIngredients(event.target.value)}
+              id="ingredients"
+              name="ingredients"
+              value={formData.ingredients}
+              onChange={handleChange2}
               placeholder="Ingredients, add each new ingredient to a new line."
               required
             />
 
             {/* Enter steps */}
             <textarea
-              value={steps}
-              onChange={(event) => setSteps(event.target.value)}
+              id="steps"
+              name="steps"
+              value={formData.steps}
+              onChange={handleChange2}
               placeholder="Steps, add each new step to a new line."
               required
             />
 
             {/* Upload image */}
             <input
+              name="image"
+              id="upload"
               type="file"
-              onChange={(event) => setImage(event.target.files?.[0] || null)}
+              onChange={handleImageChange}
               required
             />
 
