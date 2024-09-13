@@ -17,7 +17,7 @@ interface Recipe {
   comments: Comment[];
   prep: any;
   cook: any;
-  servings: any;
+  serving: any;
   category: any;
 }
 
@@ -56,9 +56,9 @@ const RecipeDetail = () => {
   // Split the ingredients and steps by commas and new lines to convert them into arrays
   const ingredientsArray = recipe.ingredients
     .split(/\r?\n/)
-    .map((item) => item.trim());
+    .map((item) => item.trim()) || [];
   const stepsArray = recipe.steps
-  .split(/\r?\n/).map((item) => item.trim());
+  .split(/\r?\n/).map((item) => item.trim()) || [];
 
   return (
     <>
@@ -83,7 +83,7 @@ const RecipeDetail = () => {
             <strong>Cook Time:</strong> {recipe.cook.time}
           </p>
           <p>
-            <strong>Servings:</strong> {recipe.servings.serving}
+            <strong>Servings:</strong> {recipe.serving.serving}
           </p>
           <p>
             <strong>Category:</strong> {recipe.category.name}
@@ -108,20 +108,24 @@ const RecipeDetail = () => {
         <div className="flex-grow">
           <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
           <ul className="list-disc p-8">
-            {ingredientsArray.filter((ingredient) => ingredient.trim() !=="").map((ingredient, index) => (
-              <li key={index} className="ingredients mb-4 font-medium">
-                {ingredient}
-              </li>
-            ))}
+            {ingredientsArray
+              .filter((ingredient) => ingredient.trim() !== "")
+              .map((ingredient, index) => (
+                <li key={index} className="ingredients mb-4 font-medium">
+                  {ingredient}
+                </li>
+              ))}
           </ul>
 
           <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
           <ol className="list-decimal list-inside font-bold">
-            {stepsArray.filter((step) => step.trim() !=="").map((step, index) => (
-              <li key={index} className="steps mb-4">
-                {step}
-              </li>
-            ))}
+            {stepsArray
+              .filter((step) => step.trim() !== "")
+              .map((step, index) => (
+                <li key={index} className="steps mb-4">
+                  {step}
+                </li>
+              ))}
           </ol>
         </div>
       </div>
@@ -132,14 +136,18 @@ const RecipeDetail = () => {
           Comments
         </h2>
         <div>
-          {recipe.comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="border-4 border-double border-green m-8 p-6 shadow-custom-light"
-            >
-              {comment.text}
-            </div>
-          ))}
+          {recipe.comments && recipe.comments.length > 0 ? (
+            recipe.comments.map((comment) => (
+              <div
+                key={comment.id}
+                className="border-4 border-double border-green m-8 p-6 shadow-custom-light"
+              >
+                {comment.text}
+              </div>
+            ))
+          ) : (
+            <p>No comments yet</p>
+          )}
         </div>
       </div>
     </>

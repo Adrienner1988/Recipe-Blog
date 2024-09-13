@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: number;
@@ -18,72 +18,59 @@ interface Servings {
 }
 
 const AddRecipe = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    ingredients: "",
-    steps: "",
-    prep: 0,
-    cook: 0,
-    category: 0,
-    servings: 0,
-    image: "",
-  });
-
+  const [title, setTitle] = useState("");
+  const [prep, setPrep] = useState(0);
   const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
-  const [servingOptions, setServingOptions] = useState<Servings[]>([]);
-  const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
+  const [cook, setCook] = useState(0);
   const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
+  const [serving, setServing] = useState(0);
+  const [servingOptions, setServingOptions] = useState<Servings[]>([]);
+  const [category, setCategory] = useState(0);
+  const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
+  const [ingredients, setIngredients] = useState("");
+  const [steps, setSteps] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
-  // Handling the submission
+  const navigate = useNavigate();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log(formData);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("prep", prep.toString());
+    formData.append("cook", cook.toString());
+    formData.append("serving", serving.toString());
+    formData.append("category", category.toString());
+    formData.append("ingredients", ingredients);
+    formData.append("steps", steps);
+    if (image) {
+      formData.append("image", image);
+    }
+
+    // checking the formData is being accepted
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/recipes/add/", {
+      const addRecipe = await fetch("http://127.0.0.1:8000/api/recipes/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit the form");
+      if (addRecipe.ok) {
+        alert("Thank you for sharing the yum!");
+        navigate("/recipes");
+      } else {
+        alert("Form not submitted, please try again.");
       }
-
-      const result = await response.json();
-      console.log("Form submitted successfully:", result);
     } catch (error) {
-      console.error("Error submitting form:", error);
+      console.error("Form submission failed:", error);
     }
   };
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target as { name: string; value: string };
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
-  const handleChange2 = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = event.target as { name: string; value: string };
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          image: reader.result as string, // Set the Base64 string
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-  // Fetching the categories, prep, cook, and servings options
+  // Fetching the catagories, prep, cook, and servings options
   useEffect(() => {
     const fetchOptions = async () => {
       try {
@@ -106,7 +93,7 @@ const AddRecipe = () => {
         setCookOptions(cookData);
 
         const servResponse = await fetch(
-          "http://127.0.0.1:8000/api/servings-options/"
+          "http://127.0.0.1:8000/api/serving-options/"
         );
         const servData = await servResponse.json();
         setServingOptions(servData);
@@ -137,26 +124,28 @@ const AddRecipe = () => {
       <div className="flex justify-center">
         <div className="w-full max-w-lg">
           <form
+            method="POST"
+            encType="multipart/form-data"
             onSubmit={handleSubmit}
             className="bg-green p-6 rounded-lg shadow-custom-dark"
           >
             {/* Enter recipe title */}
             <input
+              type="text"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
               name="title"
               id="title"
-              type="text"
-              value={formData.title}
-              onChange={handleChange}
               placeholder="Title"
               required
             />
 
-            {/* Prep time select */}
+            {/* Pre time select */}
             <select
+              value={prep}
+              onChange={(event) => setPrep(parseInt(event.target.value))}
               name="prep"
-              id="prep-time"
-              value={formData.prep}
-              onChange={handleChange}
+              id="prep"
               required
             >
               <option value="">Select Prep Time</option>
@@ -169,10 +158,10 @@ const AddRecipe = () => {
 
             {/* Cook time select */}
             <select
+              value={cook}
+              onChange={(event) => setCook(parseInt(event.target.value))}
               name="cook"
-              id="cook-time"
-              value={formData.cook}
-              onChange={handleChange}
+              id="cook"
               required
             >
               <option value="">Select Cook Time</option>
@@ -185,10 +174,10 @@ const AddRecipe = () => {
 
             {/* Servings select */}
             <select
-              name="servings"
-              id="servings"
-              value={formData.servings}
-              onChange={handleChange}
+              value={serving}
+              onChange={(event) => setServing(parseInt(event.target.value))}
+              name="serving"
+              id="serving"
               required
             >
               <option value="">Select Servings</option>
@@ -201,10 +190,10 @@ const AddRecipe = () => {
 
             {/* Category select */}
             <select
+              value={category}
+              onChange={(event) => setCategory(parseInt(event.target.value))}
               name="category"
               id="category"
-              value={formData.category}
-              onChange={handleChange}
               required
             >
               <option value="">Select Category</option>
@@ -217,36 +206,39 @@ const AddRecipe = () => {
 
             {/* Enter ingredients */}
             <textarea
-              id="ingredients"
+              value={ingredients}
+              onChange={(event) => setIngredients(event.target.value)}
               name="ingredients"
-              value={formData.ingredients}
-              onChange={handleChange2}
+              id="ingredients"
               placeholder="Ingredients, add each new ingredient to a new line."
               required
             />
 
             {/* Enter steps */}
             <textarea
-              id="steps"
+              value={steps}
+              onChange={(event) => setSteps(event.target.value)}
               name="steps"
-              value={formData.steps}
-              onChange={handleChange2}
+              id="steps"
               placeholder="Steps, add each new step to a new line."
               required
             />
 
             {/* Upload image */}
             <input
-              name="image"
-              id="upload"
               type="file"
-              onChange={handleImageChange}
+              accept="image/*"
+              name="file"
+              id="file"
+              onChange={(event) => setImage(event.target.files?.[0] || null)}
               required
             />
 
             {/* Submit button */}
             <button
               type="submit"
+              name="add-btn"
+              id="add-btn"
               className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
             >
               Share the YUM!
