@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddComment from "../components/AddComment";
 
 interface Comment {
   id: number;
@@ -130,7 +131,7 @@ const RecipeDetail = () => {
         </div>
       </div>
 
-      {/* Commend Div- thinking across the bottom of the page */}
+      {/* Comment Div- thinking split with the comment form at the bottom of the page*/}
       <div>
         <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum text-center">
           Comments
@@ -148,6 +149,11 @@ const RecipeDetail = () => {
           ) : (
             <p>No comments yet</p>
           )}
+        </div>
+        
+        {/* Add comment form */}
+        <div>
+          <AddComment />
         </div>
       </div>
     </>
