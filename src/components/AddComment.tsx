@@ -1,24 +1,24 @@
 import { useState, FormEvent } from "react";
+import { useParams } from "react-router-dom";
 
-// interface Comment {
-//   id: number;
-//   text: string;
-//   created_at: string;
-//   recipe: number;
-// }
+interface Comment {
+  text: string;
+  recipe: number;
+}
 
 const AddComment = () => {
   const [text, setText] = useState("");
+  const { pk } = useParams()
 
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const commentData = {
+    const commentData: Comment = {
       text,
+      recipe: Number(pk),
     };
   
-
     console.log(commentData);
 
     try {
