@@ -1,34 +1,45 @@
 import { useState, FormEvent } from "react";
-import { useParams } from "react-router-dom";
 
 interface Comment {
   text: string;
   recipe: number;
 }
 
-const AddComment = () => {
-  const [text, setText] = useState("");
-  const { pk } = useParams()
+interface AddCommentProps {
+  pk: any;
+  setRecipe: (recipe: any) => void;
+}
 
+const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
+  const [text, setText] = useState("");
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const commentData: Comment = {
       text,
-      recipe: Number(pk),
+      recipe: pk,
     };
-  
+
     console.log(commentData);
 
     try {
-      const addComment = await fetch("http://127.0.0.1:8000/api/recipes/add-comment/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(commentData),
-      });
+      const addComment = await fetch(
+        "http://127.0.0.1:8000/api/recipes/add-comment/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(commentData),
+        }
+      );
 
       if (addComment.ok) {
+        setText("");
+        const refetchComments = await fetch(
+          `http://127.0.0.1:8000/api/recipes/${pk}/`
+        );
+        const updatedComments = await refetchComments.json();
+        setRecipe(updatedComments);
         alert("Thank you for the rating this recipe!");
       } else {
         alert("Rating not submitted, please try again.");
