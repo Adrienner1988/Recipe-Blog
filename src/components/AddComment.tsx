@@ -73,7 +73,7 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
             id="sub-btn"
             className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
           >
-            Submit
+            Share Your Thoughts!
           </button>
         </form>
       </div>

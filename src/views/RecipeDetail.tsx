@@ -107,7 +107,7 @@ const RecipeDetail = () => {
         {/* Ingredients and steps- thinking to the right of the page */}
         <div className="flex-grow">
           <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
-          <ul className="list-disc p-8">
+          <ul className="list-disc p-10 bg-green bg-opacity-10">
             {ingredientsArray
               .filter((ingredient) => ingredient.trim() !== "")
               .map((ingredient, index) => (
