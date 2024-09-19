@@ -51,7 +51,7 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
 
   return (
     <>
-      <div>
+      <div className="bg-lightPlum bg-opacity-5 p-10">
         <h2>Tried this recipe? Leave your comment here!</h2>
         <form
           method="POST"
@@ -67,7 +67,14 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
             placeholder="Let everyone know your thoughts about this recipe ✨"
             required
           ></textarea>
-          <button type="submit">Submit</button>
+          <button
+            type="submit"
+            name="sub-btn"
+            id="sub-btn"
+            className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </>
