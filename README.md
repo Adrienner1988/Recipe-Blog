@@ -1,6 +1,6 @@
 # Recipe Rainbow
 
-![Project Screenshot](src\images\RecipeRainbow.png)
+![Project Screenshot](src/images/RecipeRainbow.png)
 ![Project Screenshot](src/images/RecipeRainbow1.png)
 
 ## Table of Contents
