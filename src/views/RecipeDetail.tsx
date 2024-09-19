@@ -93,14 +93,14 @@ const RecipeDetail = () => {
 
       <div
         id="flexbox-container"
-        className="flex flex-col md:flex-row items-start gap-10 p-4"
+        className="flex flex-col md:flex-row items-center md:items-start gap-8 p-4 m-4"
       >
         {/* Image Div- thinking to the left of the page */}
-        <div className="w-1/3 md:w-2/5 flex-shrink-0 border border-solid">
+        <div className="w-full md:w-2/5 flex-shrink-0 flex md:justify-start md:items-center mt-12 border border-solid">
           <img
             src={recipe.image}
             alt={recipe.title}
-            className="w-full h-full shadow-custom-light"
+            className="max-w-full h-auto object-contain shadow-custom-light"
           />
         </div>
 
