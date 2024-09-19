@@ -75,7 +75,7 @@ const RecipeDetail = () => {
 
       {/* Add prep time, cook time, servings, and category across top of the page */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
-        <div className="text-white p-4 rounded-lg shadow-md">
+        <div className="text-white p-4 rounded-lg shadow-md text-grayDark">
           <p>
             <strong>Prep Time:</strong> {recipe.prep.time}
           </p>
@@ -107,7 +107,7 @@ const RecipeDetail = () => {
         {/* Ingredients and steps- thinking to the right of the page */}
         <div className="flex-grow">
           <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
-          <ul className="list-disc p-10 bg-green bg-opacity-10">
+          <ul className="list-disc p-10 bg-green bg-opacity-10 text-grayDark">
             {ingredientsArray
               .filter((ingredient) => ingredient.trim() !== "")
               .map((ingredient, index) => (
@@ -122,7 +122,7 @@ const RecipeDetail = () => {
       {/* Steps- Full size of page */}
       <div className=" mx-12">
         <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
-        <ol className="list-decimal list-inside font-bold">
+        <ol className="list-decimal list-inside font-bold text-grayDark">
           {stepsArray
             .filter((step) => step.trim() !== "")
             .map((step, index) => (
@@ -150,7 +150,9 @@ const RecipeDetail = () => {
                 </div>
               ))
             ) : (
-              <p>No comments yet</p>
+              <p className="text-center text-lg text-grayDark">
+                No comments yet, be the first to share your thoughts.
+              </p>
             )}
           </div>
 
