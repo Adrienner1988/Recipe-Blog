@@ -19,13 +19,13 @@ interface Servings {
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
-  const [prep, setPrep] = useState<number>(0);
+  const [prep, setPrep] = useState(0);
   const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
-  const [cook, setCook] = useState<number>(0);
+  const [cook, setCook] = useState(0);
   const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
-  const [servings, setServings] = useState<number>(0);
+  const [serving, setServing] = useState(0);
   const [servingOptions, setServingOptions] = useState<Servings[]>([]);
-  const [category, setCategory] = useState<number>(0);
+  const [category, setCategory] = useState(0);
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
@@ -36,52 +36,37 @@ const AddRecipe = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Log the values before submission
-    // console.log("Submitting the following values:");
-    // console.log("Title:", title);
-    // console.log("Ingredients:", ingredients);
-    // console.log("Steps:", steps);
-    // console.log("Prep ID:", prep);
-    // console.log("Cook ID:", cook);
-    // console.log("Servings ID:", servings);
-    // console.log("Selected Category ID:", category);
-    // console.log("Image:", image);
-
     const formData = new FormData();
     formData.append("title", title);
-    formData.append("prep", String(prep));
-    formData.append("cook", String(cook));
-    formData.append("servings", String(servings));
-    formData.append("category", String(category));
+    formData.append("prep", prep.toString());
+    formData.append("cook", cook.toString());
+    formData.append("serving", serving.toString());
+    formData.append("category", category.toString());
     formData.append("ingredients", ingredients);
     formData.append("steps", steps);
     if (image) {
       formData.append("image", image);
-
-      
     }
-    // Log the FormData object
-    console.log("Form Data:", formData);
-    
-    try {
-      const postDataResponse = await fetch(
-        "http://127.0.0.1:8000/api/recipes/add/",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
 
-      if (!postDataResponse.ok) {
-        throw new Error("Failed to submit form");
+    // checking the formData is being accepted
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+    try {
+      const addRecipe = await fetch("http://127.0.0.1:8000/api/recipes/", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (addRecipe.ok) {
+        alert("Thank you for sharing the yum!");
+        navigate("/recipes");
+      } else {
+        alert("Form not submitted, please try again.");
       }
-      const result = await postDataResponse.json();
-      console.log("Form submitted successfully:", result);
-      alert(`Recipe Submitted`);
-      navigate("/recipes");
     } catch (error) {
-      console.error("Error submitting recipe:", error);
-      alert(`Form not submitted`);
+      console.error("Form submission failed:", error);
     }
   };
 
@@ -108,7 +93,7 @@ const AddRecipe = () => {
         setCookOptions(cookData);
 
         const servResponse = await fetch(
-          "http://127.0.0.1:8000/api/servings-options/"
+          "http://127.0.0.1:8000/api/serving-options/"
         );
         const servData = await servResponse.json();
         setServingOptions(servData);
@@ -121,6 +106,7 @@ const AddRecipe = () => {
 
     fetchOptions();
   }, []);
+
   return (
     <>
       <div className="bg-grayLight"></div>
@@ -138,6 +124,8 @@ const AddRecipe = () => {
       <div className="flex justify-center">
         <div className="w-full max-w-lg">
           <form
+            method="POST"
+            encType="multipart/form-data"
             onSubmit={handleSubmit}
             className="bg-green p-6 rounded-lg shadow-custom-dark"
           >
@@ -146,6 +134,8 @@ const AddRecipe = () => {
               type="text"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              name="title"
+              id="title"
               placeholder="Title"
               required
             />
@@ -154,6 +144,8 @@ const AddRecipe = () => {
             <select
               value={prep}
               onChange={(event) => setPrep(parseInt(event.target.value))}
+              name="prep"
+              id="prep"
               required
             >
               <option value="">Select Prep Time</option>
@@ -168,6 +160,8 @@ const AddRecipe = () => {
             <select
               value={cook}
               onChange={(event) => setCook(parseInt(event.target.value))}
+              name="cook"
+              id="cook"
               required
             >
               <option value="">Select Cook Time</option>
@@ -180,8 +174,10 @@ const AddRecipe = () => {
 
             {/* Servings select */}
             <select
-              value={servings}
-              onChange={(event) => setServings(parseInt(event.target.value))}
+              value={serving}
+              onChange={(event) => setServing(parseInt(event.target.value))}
+              name="serving"
+              id="serving"
               required
             >
               <option value="">Select Servings</option>
@@ -196,6 +192,8 @@ const AddRecipe = () => {
             <select
               value={category}
               onChange={(event) => setCategory(parseInt(event.target.value))}
+              name="category"
+              id="category"
               required
             >
               <option value="">Select Category</option>
@@ -210,6 +208,8 @@ const AddRecipe = () => {
             <textarea
               value={ingredients}
               onChange={(event) => setIngredients(event.target.value)}
+              name="ingredients"
+              id="ingredients"
               placeholder="Ingredients, add each new ingredient to a new line."
               required
             />
@@ -218,6 +218,8 @@ const AddRecipe = () => {
             <textarea
               value={steps}
               onChange={(event) => setSteps(event.target.value)}
+              name="steps"
+              id="steps"
               placeholder="Steps, add each new step to a new line."
               required
             />
@@ -225,6 +227,9 @@ const AddRecipe = () => {
             {/* Upload image */}
             <input
               type="file"
+              accept="image/*"
+              name="file"
+              id="file"
               onChange={(event) => setImage(event.target.files?.[0] || null)}
               required
             />
@@ -232,6 +237,8 @@ const AddRecipe = () => {
             {/* Submit button */}
             <button
               type="submit"
+              name="add-btn"
+              id="add-btn"
               className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
             >
               Share the YUM!

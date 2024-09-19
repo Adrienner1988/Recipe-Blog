@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddComment from "../components/AddComment";
 
 interface Comment {
   id: number;
@@ -17,7 +18,7 @@ interface Recipe {
   comments: Comment[];
   prep: any;
   cook: any;
-  servings: any;
+  serving: any;
   category: any;
 }
 
@@ -54,11 +55,10 @@ const RecipeDetail = () => {
   }
 
   // Split the ingredients and steps by commas and new lines to convert them into arrays
-  const ingredientsArray = recipe.ingredients
-    .split(/\r?\n/)
-    .map((item) => item.trim());
-  const stepsArray = recipe.steps
-  .split(/\r?\n/).map((item) => item.trim());
+  const ingredientsArray =
+    recipe.ingredients.split(/\r?\n/).map((item) => item.trim()) || [];
+  const stepsArray =
+    recipe.steps.split(/\r?\n/).map((item) => item.trim()) || [];
 
   return (
     <>
@@ -75,7 +75,7 @@ const RecipeDetail = () => {
 
       {/* Add prep time, cook time, servings, and category across top of the page */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-6">
-        <div className="text-white p-4 rounded-lg shadow-md">
+        <div className="text-white p-4 rounded-lg shadow-md text-grayDark">
           <p>
             <strong>Prep Time:</strong> {recipe.prep.time}
           </p>
@@ -83,7 +83,7 @@ const RecipeDetail = () => {
             <strong>Cook Time:</strong> {recipe.cook.time}
           </p>
           <p>
-            <strong>Servings:</strong> {recipe.servings.serving}
+            <strong>Servings:</strong> {recipe.serving.serving}
           </p>
           <p>
             <strong>Category:</strong> {recipe.category.name}
@@ -93,53 +93,73 @@ const RecipeDetail = () => {
 
       <div
         id="flexbox-container"
-        className="flex flex-col md:flex-row items-start gap-4 p-4"
+        className="flex flex-col md:flex-row items-center md:items-start gap-8 p-4 m-4"
       >
         {/* Image Div- thinking to the left of the page */}
-        <div className="w-1/3 md:w-2/5 flex-shrink-0">
+        <div className="w-full md:w-2/5 flex-shrink-0 flex md:justify-start md:items-center mt-12 border border-solid">
           <img
             src={recipe.image}
             alt={recipe.title}
-            className="w-full h-full shadow-custom-light"
+            className="max-w-full h-auto object-contain shadow-custom-light"
           />
         </div>
 
         {/* Ingredients and steps- thinking to the right of the page */}
         <div className="flex-grow">
           <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
-          <ul className="list-disc p-8">
-            {ingredientsArray.filter((ingredient) => ingredient.trim() !=="").map((ingredient, index) => (
-              <li key={index} className="ingredients mb-4 font-medium">
-                {ingredient}
-              </li>
-            ))}
+          <ul className="list-disc p-10 bg-green bg-opacity-10 text-grayDark">
+            {ingredientsArray
+              .filter((ingredient) => ingredient.trim() !== "")
+              .map((ingredient, index) => (
+                <li key={index} className="ingredients mb-4 font-medium">
+                  {ingredient}
+                </li>
+              ))}
           </ul>
+        </div>
+      </div>
 
-          <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
-          <ol className="list-decimal list-inside font-bold">
-            {stepsArray.filter((step) => step.trim() !=="").map((step, index) => (
+      {/* Steps- Full size of page */}
+      <div className=" mx-12">
+        <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
+        <ol className="list-decimal list-inside font-bold text-grayDark">
+          {stepsArray
+            .filter((step) => step.trim() !== "")
+            .map((step, index) => (
               <li key={index} className="steps mb-4">
                 {step}
               </li>
             ))}
-          </ol>
-        </div>
+        </ol>
       </div>
 
-      {/* Commend Div- thinking across the bottom of the page */}
+      {/* Comment Div- thinking split with the comment form at the bottom of the page*/}
       <div>
         <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum text-center">
           Comments
         </h2>
-        <div>
-          {recipe.comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="border-4 border-double border-green m-8 p-6 shadow-custom-light"
-            >
-              {comment.text}
-            </div>
-          ))}
+        <div className="flex flex-col md:flex-row items-center gap-4 p-4">
+          <div className="w-1/3 md:w-2/5 flex-shrink-0">
+            {recipe.comments && recipe.comments.length > 0 ? (
+              recipe.comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className="border-4 border-double border-green m-8 p-6 shadow-custom-light"
+                >
+                  {comment.text}
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-lg text-grayDark">
+                No comments yet, be the first to share your thoughts.
+              </p>
+            )}
+          </div>
+
+          {/* Add comment form */}
+          <div>
+            <AddComment pk={pk} setRecipe={setRecipe} />
+          </div>
         </div>
       </div>
     </>
