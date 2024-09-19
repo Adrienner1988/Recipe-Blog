@@ -1,6 +1,6 @@
 # Recipe Rainbow
 
-![Project Screenshot](src/images/RecipeRainbow.png)
+![Project Screenshot](src\images\RecipeRainbow.png)
 ![Project Screenshot](src/images/RecipeRainbow1.png)
 
 ## Table of Contents
@@ -19,7 +19,7 @@
 Recipe Rainbow is a responsive web app for discovering and sharing recipes. Users can browse various categories, view detailed recipe instructions, add their recipes, and even leave comments. The app focuses on user-friendly design and functionality, ensuring a smooth experience across different screen sizes.
 
 ## Video
-[Watch the demo](https://drive.google.com/file/d/1Old6zujdjfpkcWHtjjgueDkkAJuIDkqy/view?usp=sharing)
+[Watch the demo](https://drive.google.com/file/d/14dXzJiPp_9B2hRA9IOCMb-6wyfjHAqwh/view?usp=drive_link)
 
 ## Tech
 A list of the technologies and tools used in the project:
@@ -41,7 +41,7 @@ A list of the technologies and tools used in the project:
 - Python/Django (Backend)
 
 ### Usage
-You can access the live version of the application here: [Live Demo](https://ad-tinder-clone.netlify.app/)
+You can access the live version of the application here: [Live Demo]()
 
 ### Cloning the Repository (Optional)
 If you still want to clone the repository and explore the code:
