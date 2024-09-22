@@ -51,7 +51,7 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
 
   return (
     <>
-      <div className="bg-lightPlum bg-opacity-5 p-10">
+      <div className="bg-lightPlum bg-opacity-5 p-10 shadow-custom-light">
         <h2>Tried this recipe? Leave your comment here!</h2>
         <form
           method="POST"
