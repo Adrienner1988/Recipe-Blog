@@ -39,7 +39,7 @@ const HomePage = () => {
             loop
             muted
           >
-            <source src="src/video/feast.mp4" type="video/mp4" />
+            <source src="/feast.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 
