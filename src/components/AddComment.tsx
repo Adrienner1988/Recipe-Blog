@@ -25,7 +25,7 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
 
     try {
       const addComment = await fetch(
-        "http://127.0.0.1:8000/api/recipes/add-comment/",
+        "https://recipe-db-0boe.onrender.com/api/recipes/add-comment/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -36,7 +36,7 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
       if (addComment.ok) {
         setText("");
         const refetchComments = await fetch(
-          `http://127.0.0.1:8000/api/recipes/${pk}/`
+          `https://recipe-db-0boe.onrender.com/api/recipes/${pk}/`
         );
         const updatedComments = await refetchComments.json();
         setRecipe(updatedComments);
@@ -51,7 +51,7 @@ const AddComment = ({ pk, setRecipe }: AddCommentProps) => {
 
   return (
     <>
-      <div className="bg-lightPlum bg-opacity-5 p-10">
+      <div className="bg-lightPlum bg-opacity-5 p-10 shadow-custom-light">
         <h2>Tried this recipe? Leave your comment here!</h2>
         <form
           method="POST"
