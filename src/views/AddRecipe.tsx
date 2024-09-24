@@ -54,10 +54,13 @@ const AddRecipe = () => {
     }
 
     try {
-      const addRecipe = await fetch("http://127.0.0.1:8000/api/recipes/", {
-        method: "POST",
-        body: formData,
-      });
+      const addRecipe = await fetch(
+        "https://recipe-db-0boe.onrender.com/api/recipes/",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (addRecipe.ok) {
         alert("Thank you for sharing the yum!");
@@ -75,25 +78,25 @@ const AddRecipe = () => {
     const fetchOptions = async () => {
       try {
         const catResponse = await fetch(
-          "http://127.0.0.1:8000/api/categories/"
+          "https://recipe-db-0boe.onrender.com/api/categories/"
         );
         const catData = await catResponse.json();
         setCategoryOptions(catData);
 
         const prepResponse = await fetch(
-          "http://127.0.0.1:8000/api/prep-options/"
+          "https://recipe-db-0boe.onrender.com/api/prep-options/"
         );
         const prepData = await prepResponse.json();
         setPrepOptions(prepData);
 
         const cookResponse = await fetch(
-          "http://127.0.0.1:8000/api/cook-options/"
+          "https://recipe-db-0boe.onrender.com/api/cook-options/"
         );
         const cookData = await cookResponse.json();
         setCookOptions(cookData);
 
         const servResponse = await fetch(
-          "http://127.0.0.1:8000/api/serving-options/"
+          "https://recipe-db-0boe.onrender.com/api/serving-options/"
         );
         const servData = await servResponse.json();
         setServingOptions(servData);

@@ -31,7 +31,7 @@ const RecipeDetail = () => {
     const fetchRecipe = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/recipes/${pk}/`
+          `https://recipe-db-0boe.onrender.com/api/recipes/${pk}/`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch recipe");

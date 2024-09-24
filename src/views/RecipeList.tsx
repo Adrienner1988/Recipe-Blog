@@ -38,7 +38,7 @@ const RecipeList = () => {
           .join("&");
 
         const response = await fetch(
-          `http://127.0.0.1:8000/api/recipes/search?${queryString}`
+          `https://recipe-db-0boe.onrender.com/recipes/search?${queryString}`
         );
 
         if (!response.ok) {
@@ -66,7 +66,9 @@ const RecipeList = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/categories/");
+        const response = await fetch(
+          "https://recipe-db-0boe.onrender.com/api/categories/"
+        );
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
         setCategories(data);
@@ -144,7 +146,7 @@ const RecipeList = () => {
               <div className="relative w-full h-full flex items-center justify-center">
                 <img
                   className="rounded-[15px] object-cover transition-transform duration-500 hover:scale-90 shadow-custom-light hover:shadow-custom-dark"
-                  src={`http://127.0.0.1:8000${recipe.image}`}
+                  src={`https://recipe-db-0boe.onrender.com${recipe.image}`}
                   alt={recipe.title}
                   style={{ width: "200px", height: "200px" }}
                 />

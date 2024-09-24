@@ -13,7 +13,9 @@ const HomePage = () => {
  useEffect(() => {
    const fetchCategories = async () => {
      try {
-       const response = await fetch("http://127.0.0.1:8000/api/categories/");
+       const response = await fetch(
+         "https://recipe-db-0boe.onrender.com/api/categories/"
+       );
        if (!response.ok) throw new Error("Failed to fetch categories");
        const data = await response.json();
        setCategories(data);
