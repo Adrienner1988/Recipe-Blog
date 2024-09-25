@@ -7,7 +7,7 @@ const Nav = () => {
         <ul className="flex items-center justify-between flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4 ">
           <li className="nav-list font-bold float-start hover:text-green transition-colors duration-300">Recipe Rainbow</li>
 
-          <div className="flex space-x-4 sm: space-x-2">
+          <div className="flex space-x-4 sm: px-2">
             <li className="nav-list">
               <NavLink
                 to={"/"}
