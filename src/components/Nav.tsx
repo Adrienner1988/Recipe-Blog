@@ -7,7 +7,7 @@ const Nav = () => {
         <ul className="flex items-center justify-between flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 p-4 ">
           <li className="nav-list font-bold float-start hover:text-green transition-colors duration-300">Recipe Rainbow</li>
 
-          <div className="flex space-x-4 sm: px-2">
+          <div className="flex space-x-4">
             <li className="nav-list">
               <NavLink
                 to={"/"}
@@ -29,7 +29,7 @@ const Nav = () => {
                 to={"/add"}
                 className="px-3 py-3 rounded-full hover:bg-lightPlum hover:text-green transition-colors duration-300"
               >
-                Add Yours
+                Add
               </NavLink>
             </li>
           </div>
