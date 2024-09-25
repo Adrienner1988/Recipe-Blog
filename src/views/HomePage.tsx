@@ -48,14 +48,14 @@ const HomePage = () => {
 
           {/* Image Background for smaller screens */}
           <img
-            className="absolute top-0 left-0 w-full h-full object-cover sm:hidden"
+            className="absolute top-0 left-0 w-full h-full object-cover"
             src="src\images\feastStill.jpg"
             alt="Background"
           />
 
           {/* Overlay Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-center">
-            <h1 className="text-6xl font-bold underline m-0 p-8 max-w-80px text-center text-grayLight">
+            <h1 className="text-6xl font-bold underline m-0 p-8 max-w-80px text-center text-lightPlum">
               Recipe Rainbow
             </h1>
           </div>
