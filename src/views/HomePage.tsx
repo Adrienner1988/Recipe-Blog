@@ -14,7 +14,7 @@ const HomePage = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          `https://recipe-db-0boe.onrender.com/api/categories/${categories}/recipes`
+          "https://recipe-db-0boe.onrender.com/api/categories/"
         );
         if (!response.ok) throw new Error("Failed to fetch categories");
         const data = await response.json();
@@ -32,7 +32,6 @@ const HomePage = () => {
     <>
       <section>
         <div className="relative w-full h-screen">
-          
           {/* Video Background */}
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
