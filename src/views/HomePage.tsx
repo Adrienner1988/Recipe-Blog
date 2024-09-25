@@ -8,30 +8,31 @@ interface Category {
 }
 
 const HomePage = () => {
- const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
- useEffect(() => {
-   const fetchCategories = async () => {
-     try {
-       const response = await fetch(
-         "https://recipe-db-0boe.onrender.com/api/categories/"
-       );
-       if (!response.ok) throw new Error("Failed to fetch categories");
-       const data = await response.json();
-       setCategories(data);
-       console.log(data, "Fetched categories:")
-     } catch (error) {
-       console.error("Error fetching categories:", error);
-     }
-   };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          "https://recipe-db-0boe.onrender.com/api/categories/"
+        );
+        if (!response.ok) throw new Error("Failed to fetch categories");
+        const data = await response.json();
+        setCategories(data);
+        console.log(data, "Fetched categories:");
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-   fetchCategories();
- }, []);
+    fetchCategories();
+  }, []);
 
   return (
     <>
       <section>
         <div className="relative w-full h-screen">
+          
           {/* Video Background */}
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
@@ -51,7 +52,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
 
       <section>
         <div className="bg-lightPlum p-8">
@@ -74,7 +74,7 @@ const HomePage = () => {
           Recipe Categories
         </h2>
         <div>
-          <CategoryList categories={categories}/>
+          <CategoryList categories={categories} />
         </div>
       </section>
     </>
