@@ -41,7 +41,7 @@ A list of the technologies and tools used in the project:
 - Python/Django (Backend)
 
 ### Usage
-You can access the live version of the application here: [Live Demo]()
+You can access the live version of the application here: [Live Demo](https://reciperainbow.netlify.app/)
 
 ### Cloning the Repository (Optional)
 If you still want to clone the repository and explore the code:
