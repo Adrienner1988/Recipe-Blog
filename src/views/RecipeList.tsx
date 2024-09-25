@@ -38,7 +38,7 @@ const RecipeList = () => {
           .join("&");
 
         const response = await fetch(
-          `https://recipe-db-0boe.onrender.com/api/recipes/search?${queryString}`
+          `https://recipe-db-0boe.onrender.com/api/recipes/search/?${queryString}`
         );
 
         if (!response.ok) {
