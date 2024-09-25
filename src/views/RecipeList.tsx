@@ -38,7 +38,7 @@ const RecipeList = () => {
           .join("&");
 
         const response = await fetch(
-          `https://recipe-db-0boe.onrender.com/recipes/search?${queryString}`
+          `https://recipe-db-0boe.onrender.com/api/recipes/search/?${queryString}`
         );
 
         if (!response.ok) {
@@ -146,7 +146,7 @@ const RecipeList = () => {
               <div className="relative w-full h-full flex items-center justify-center">
                 <img
                   className="rounded-[15px] object-cover transition-transform duration-500 hover:scale-90 shadow-custom-light hover:shadow-custom-dark"
-                  src={`https://recipe-db-0boe.onrender.com${recipe.image}`}
+                  src={`https://recipe-db-0boe.onrender.com/api/${recipe.image}`}
                   alt={recipe.title}
                   style={{ width: "200px", height: "200px" }}
                 />
