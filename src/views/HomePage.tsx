@@ -33,7 +33,7 @@ const HomePage = () => {
       <section>
         <div className="relative w-full h-screen">
           {/* Video Background */}
-          <video
+          {/* <video
             className="absolute top-0 left-0 w-full h-full object-cover hidden sm:block"
             preload="metadata"
             autoPlay
@@ -44,7 +44,14 @@ const HomePage = () => {
             <source src="/feastResize.mp4" type="video/mp4" />
             <source src="/feastWebm.webm" type="video/webm" />
             Your browser does not support the video tag.
-          </video>
+          </video> */}
+
+          {/* Image Background for smaller screens */}
+          <img
+            className="absolute top-0 left-0 w-full h-full object-cover sm:hidden"
+            src="src\images\feastStill.jpg"
+            alt="Background"
+          />
 
           {/* Overlay Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-center">
