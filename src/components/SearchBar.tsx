@@ -27,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
   };
 
   return (
-    <div className="mb-8 cursor-text">
+    <div className="mb-8 sm: p-4 cursor-text">
       <input
         type="text"
         value={title}

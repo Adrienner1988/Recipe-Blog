@@ -139,12 +139,12 @@ const RecipeDetail = () => {
           Comments
         </h2>
         <div className="flex flex-col md:flex-row items-center gap-4 p-4">
-          <div className="w-1/3 md:w-2/5 flex-shrink-0">
+          <div className="w-full md:w-2/5 flex-shrink-0">
             {recipe.comments && recipe.comments.length > 0 ? (
               recipe.comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="border-4 border-double border-green m-8 p-6 shadow-custom-light"
+                  className="border-4 border-double border-green m-4 p-4 shadow-custom-light overflow-hidden"
                 >
                   {comment.text}
                 </div>

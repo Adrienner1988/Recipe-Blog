@@ -125,7 +125,7 @@ const AddRecipe = () => {
       </div>
 
       <div className="flex justify-center">
-        <div className="w-full max-w-lg">
+        <div className="w-full max-w-lg sm: p-4">
           <form
             method="POST"
             encType="multipart/form-data"

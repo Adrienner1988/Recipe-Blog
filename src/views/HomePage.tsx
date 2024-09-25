@@ -35,6 +35,7 @@ const HomePage = () => {
           {/* Video Background */}
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
+            preload="auto"
             autoPlay
             loop
             muted

@@ -132,25 +132,26 @@ const RecipeList = () => {
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="card relative w-96 h-64 bg-green rounded-3xl cursor-pointer transition-all duration-500 hover:h-[300px] overflow-hidden"
+            className="card relative w-64 h-auto p-1 bg-green rounded-3xl cursor-pointer transition-all duration-500 hover:h-auto overflow-hidden"
           >
             <Link
               to={`/recipes/${recipe.id}`}
               state={{ recipe }}
-              className="flex flex-col h-full"
+              className="flex flex-col h-full justify-center items-center"
             >
-              {" "}
-              <p className="mt-2 mb-2 text-center  text-sm font-semibold text-grayDark hover:text-lightPlum">
-                {recipe.title}
-              </p>
-              <div className="relative w-full h-full flex items-center justify-center">
+              {/* Recipe Image */}
+              <div className="relative w-full h-48 flex items-center justify-center p-2">
                 <img
-                  className="rounded-[15px] object-cover transition-transform duration-500 hover:scale-90 shadow-custom-light hover:shadow-custom-dark"
+                  className="rounded-[15px] object-cover transition-transform duration-500 hover:scale-90 shadow-custom-light hover:shadow-custom-dark w-full h-full"
                   src={`https://recipe-db-0boe.onrender.com${recipe.image}`}
                   alt={recipe.title}
-                  style={{ width: "200px", height: "200px" }}
                 />
               </div>
+
+              {/* Recipe Title */}
+              <p className="text-center text-sm font-semibold text-grayDark hover:text-lightPlum mt-2 p-1 sm:text-xs md:text-sm lg:text-base">
+                {recipe.title}
+              </p>
             </Link>
           </div>
         ))}
