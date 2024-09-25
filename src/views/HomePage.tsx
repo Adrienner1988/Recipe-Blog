@@ -34,13 +34,14 @@ const HomePage = () => {
         <div className="relative w-full h-screen">
           {/* Video Background */}
           <video
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            preload="auto"
+            className="absolute top-0 left-0 w-full h-full object-cover hidden sm:block"
+            preload="metadata"
             autoPlay
             loop
             muted
           >
-            <source src="/feast.mp4" type="video/mp4" />
+            <source src="/feastResize.mp4" type="video/mp4" />
+            <source src="/feastWebm.webm" type="video/webm" />
             Your browser does not support the video tag.
           </video>
 
