@@ -49,7 +49,7 @@ const HomePage = () => {
           {/* Image Background for smaller screens */}
           <img
             className="absolute top-0 left-0 w-full h-full object-cover"
-            src="src\images\feastStill.jpg"
+            src="src/images/feastStill.jpg"
             alt="Background"
           />
 
