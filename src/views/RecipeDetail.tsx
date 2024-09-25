@@ -67,7 +67,7 @@ const RecipeDetail = () => {
       </h2>
 
       <div className="text-center mt-4">
-        <p className="text-lightPlum font-semibold mb-2">
+        <p className="text-lightPlum font-semibold mb-2 sm: p-2">
           Ready to cook up something amazing? Let’s dive into the delicious
           details!
         </p>
