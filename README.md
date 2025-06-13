@@ -48,7 +48,7 @@ If you still want to clone the repository and explore the code:
 1. Clone the repository: `git clone https://github.com/Adrienner1988/recipe-rainbow.git`
 2. Clone the repository: `git clone https://github.com/Adrienner1988/Recipe Blog.git`
 3. Navigate to the project directory: `cd recipe-rainbow`
-3. Navigate to the project directory: `cd Recipe Blong`
+3. Navigate to the project directory: `cd Recipe Blog`
 5. Install dependencies: `npm install`
 6. Start the backend server: `python manage.py runserver`
 7. Start the development server: `npm start`
