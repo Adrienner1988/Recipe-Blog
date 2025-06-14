@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-interface Category {
-  id: number;
+export interface Category {
+  id: string;
   name: string;
   image: string;
 }
@@ -11,6 +11,16 @@ interface CategoriesListProps {
 }
 
 const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
+  if (categories.length === 0) {
+    return (
+      <div className="text-center m-4">
+        <p className="text-darkPlum font-semibold">
+          No categories available at the moment. Please check back later!
+        </p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="text-center m-4">
@@ -20,7 +30,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
         </p>
       </div>
 
-      <div className=" flex justify-center">
+      <div className="flex justify-center">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-4 px-4">
           {categories.map((category) => (
             <Link

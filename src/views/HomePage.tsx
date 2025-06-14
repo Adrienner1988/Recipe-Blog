@@ -1,4 +1,4 @@
-import CategoryList from "../components/CategoryList";
+import CategoryListContainer from "../components/CategoryListContainer";
 import { useState, useEffect } from "react";
 
 interface Category {
@@ -80,10 +80,10 @@ const HomePage = () => {
 
       <section>
         <h2 className="text-3xl font-bold p-4 text-lightPlum ">
-          Recipe Categories
+          Recipe CategoryList
         </h2>
         <div>
-          <CategoryList categories={categories} />
+          <CategoryListContainer categories={categories} />
         </div>
       </section>
     </>
