@@ -2,28 +2,34 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import AddComment from "../components/AddComment";
+// import AddComment from "../components/AddComment";
 import { Recipe, Comment } from "../types";
 
 const RecipeDetail = () => {
-  const { pk } = useParams<{ pk: string }>();
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const [recipe, setRecipe] = useState<(Recipe & { comments: Comment[]; categoryName?: string }) | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        if (!pk) return;
+        if (!id) {
+          console.warn("❌ No PK in route");
+          return;
+        }
 
-        const docRef = doc(db, "recipes", pk);
+        console.log("🔍 Fetching recipe for ID:", id);
+        const docRef = doc(db, "recipe", id);
         const docSnap = await getDoc(docRef);
 
         if (!docSnap.exists()) {
+          console.warn("❌ Recipe not found in Firestore");
           setError("Recipe not found");
           return;
         }
 
         const recipeData = docSnap.data();
+        console.log("📦 Recipe data:", recipeData);
 
         const commentsSnap = await getDocs(collection(docRef, "comments"));
         const comments: Comment[] = commentsSnap.docs.map((commentDoc) => ({
@@ -31,30 +37,41 @@ const RecipeDetail = () => {
           ...(commentDoc.data() as Omit<Comment, "id">),
         }));
 
+        let categoryName = "";
+        if (recipeData.categoryId) {
+          const categoryRef = doc(db, "categories", recipeData.categoryId);
+          const categorySnap = await getDoc(categoryRef);
+          if (categorySnap.exists()) {
+            categoryName = categorySnap.data().name;
+          }
+        }
+
         setRecipe({
           id: docSnap.id,
           title: recipeData.title,
           image: recipeData.image,
-          ingredients: recipeData.ingredients,
-          steps: recipeData.steps,
           prep: recipeData.prep,
           cook: recipeData.cook,
           serving: recipeData.serving,
-          category: recipeData.category,
-          comments,
+          categoryId: recipeData.categoryId,
+          categoryName: categoryName,
+          ingredients: recipeData.ingredients,
+          steps: recipeData.steps,
+          author: recipeData.author,
+          createdAt: recipeData.createdAt?.toDate?.() ?? null,
+          comments: comments,          
         });
-        
       } catch (err) {
-        console.error(err);
+        console.error("❌ Error fetching recipe:", err);
         setError("Error fetching recipe");
       }
     };
 
     fetchRecipe();
-  }, [pk]);
+  }, [id]);
 
-  if (error) return <div>{error}</div>;
-  if (!recipe) return <div>Recipe not found</div>;
+  if (error) return <div className="text-center text-red-600 mt-4">{error}</div>;
+  if (!recipe) return <div className="text-center text-plum mt-4">Loading...</div>;
 
   return (
     <>
@@ -70,10 +87,10 @@ const RecipeDetail = () => {
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 m-6">
         <div className="text-white p-4 rounded-lg shadow-md text-grayDark">
-          <p><strong>Prep Time:</strong> {recipe.prep?.time}</p>
-          <p><strong>Cook Time:</strong> {recipe.cook?.time}</p>
-          <p><strong>Servings:</strong> {recipe.serving?.serving}</p>
-          <p><strong>Category:</strong> {recipe.category?.name}</p>
+          <p><strong>Prep Time:</strong> {recipe.prep}</p>
+          <p><strong>Cook Time:</strong> {recipe.cook}</p>
+          <p><strong>Servings:</strong> {recipe.serving}</p>
+          <p><strong>Category:</strong> {recipe.categoryName}</p>
         </div>
       </div>
 
@@ -129,9 +146,9 @@ const RecipeDetail = () => {
             )}
           </div>
 
-          <div>
+          {/* <div>
             <AddComment id={recipe.id} setRecipe={setRecipe} />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

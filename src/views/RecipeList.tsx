@@ -135,7 +135,6 @@ const RecipeList = () => {
           >
             <Link
               to={`/recipes/${recipe.id}`}
-              state={{ recipe }}
               className="flex flex-col h-full justify-center items-center"
             >
               <div className="relative w-full h-48 flex items-center justify-center p-2">

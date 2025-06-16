@@ -10,18 +10,19 @@ export interface Recipe {
   image: string;
   prep: string;
   cook: string;
-  serving: number;
+  serving: string;
   categoryId: string;
   ingredients: string[];
   steps: string[];
-  authorId?: string;
+  author?: string;
   createdAt?: Date;
+  comments?: Comment[];
 }
 
 export interface Comment {
   id?: string;
   text: string;
-  authorId: string;
+  author: string;
   createdAt: Date;
 }
 
