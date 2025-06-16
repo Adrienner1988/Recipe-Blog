@@ -10,29 +10,16 @@ import {
   type DocumentData,
 } from "firebase/firestore";
 import SearchBar from "../components/SearchBar";
+import { Recipe, CategoryData } from "../types";
 
-interface Recipe {
-  id: string;
-  title: string;
-  ingredients: string[];
-  instructions: string;
-  image?: string;
-  categoryId: string;
-}
-
-interface CategoryData {
-  id: string;
-  name: string;
-  image: string;
-}
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [categories, setCategories] = useState<CategoryData[]>([]);
   const [queries, setQueries] = useState<{
     title?: string;
-    ingredient?: string;
-    category?: string;
+    ingredients?: string[];
+    categoryId?: string;
   }>({});
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const location = useLocation();
@@ -41,12 +28,12 @@ const RecipeList = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        let recipeQuery: Query<DocumentData> = collection(db, "recipes");
+        let recipeQuery: Query<DocumentData> = collection(db, "recipe");
 
-        if (queries.category) {
+        if (queries.categoryId) {
           recipeQuery = query(
-            collection(db, "recipes"),
-            where("categoryId", "==", queries.category)
+            collection(db, "recipe"),
+            where("categoryId", "==", queries.categoryId)
           );
         }
 
@@ -63,10 +50,12 @@ const RecipeList = () => {
             r.title.toLowerCase().includes(queries.title!.toLowerCase())
           );
         }
-        if (queries.ingredient) {
+        if (queries.ingredients && queries.ingredients.length > 0) {
           filtered = filtered.filter((r) =>
-            r.ingredients.some((i) =>
-              i.toLowerCase().includes(queries.ingredient!.toLowerCase())
+            queries.ingredients!.some((searchIng) =>
+              r.ingredients.some((i) =>
+                i.toLowerCase().includes(searchIng.toLowerCase())
+              )
             )
           );
         }
@@ -116,8 +105,8 @@ const RecipeList = () => {
 
   const handleSearch = (criteria: {
     title?: string;
-    ingredient?: string;
-    category?: string;
+    ingredients?: string[];
+    categoryId?: string;
   }) => {
     setQueries(criteria);
   };

@@ -1,4 +1,3 @@
-
 export interface CategoryData {
   id: string;
   name: string;
@@ -9,19 +8,33 @@ export interface Recipe {
   id: string;
   title: string;
   image: string;
-  prep: string ;
-  cook:  string;
+  prep: string;
+  cook: string;
   serving: number;
   categoryId: string;
   ingredients: string[];
   steps: string[];
+  authorId?: string;
+  createdAt?: Date;
 }
 
 export interface Comment {
   id?: string;
   text: string;
-  createdAt?: Date;
+  authorId: string;
+  createdAt: Date;
 }
+
+export interface TimeOption {
+  id: string;
+  time: string;
+}
+
+export interface Servings {
+  id: string;
+  serving: string;
+}
+
   
  
   

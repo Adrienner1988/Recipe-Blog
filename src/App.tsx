@@ -8,26 +8,15 @@ import AddRecipe from "./views/AddRecipe.tsx";
 import Footer from "./components/Footer.tsx";
 
 
-import { useEffect } from "react";
-// import { seedCategories, seedRecipes } from "./data/seedFirestore";
-
-
 function App() {
-
-  useEffect(() => {
-    // Run these ONCE then comment them out
-    // seedCategories();
-    // seedRecipes();
-  }, []);
 
   return (
     <>
       <Nav />
-      <p>Seeding categories and recipes... check Firestore!</p>;
-      <Routes>
+        <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/recipes" element={<RecipeList />} />
-        <Route path="/recipes/:pk" element={<RecipeDetail />} />
+        <Route path="/recipes/:id" element={<RecipeDetail />} />
         <Route path="/add" element={<AddRecipe />} />
       </Routes>
       <Footer />

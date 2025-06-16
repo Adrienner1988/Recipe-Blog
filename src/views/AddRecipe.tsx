@@ -3,22 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { db, storage } from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { CategoryData, TimeOption, Servings } from "../types";
 
-interface Category {
-  id: string;
-  name: string;
-  image: string;
-}
-
-interface TimeOption {
-  id: string;
-  time: string;
-}
-
-interface Servings {
-  id: string;
-  serving: string;
-}
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
@@ -29,7 +15,7 @@ const AddRecipe = () => {
   const [serving, setServing] = useState("");
   const [servingOptions, setServingOptions] = useState<Servings[]>([]);
   const [category, setCategory] = useState("");
-  const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<CategoryData[]>([]);
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -72,7 +58,7 @@ const AddRecipe = () => {
     const fetchOptions = async () => {
       try {
         const catSnap = await getDocs(collection(db, "categories"));
-        setCategoryOptions(catSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Category)));
+        setCategoryOptions(catSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as CategoryData)));
 
         const prepSnap = await getDocs(collection(db, "prep-options"));
         setPrepOptions(prepSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TimeOption)));
