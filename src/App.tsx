@@ -9,15 +9,15 @@ import Footer from "./components/Footer.tsx";
 
 
 import { useEffect } from "react";
-import { seedCategories, seedRecipes } from "./data/seedFirestore";
+// import { seedCategories, seedRecipes } from "./data/seedFirestore";
 
 
 function App() {
 
   useEffect(() => {
     // Run these ONCE then comment them out
-    seedCategories();
-    seedRecipes();
+    // seedCategories();
+    // seedRecipes();
   }, []);
 
   return (

@@ -1,26 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 import AddComment from "../components/AddComment";
-
-interface Comment {
-  id: number;
-  text: string;
-  created_at: string;
-  recipe: number;
-}
-
-interface Recipe {
-  id: number;
-  title: string;
-  ingredients: string;
-  steps: string;
-  image: string;
-  comments: Comment[];
-  prep: any;
-  cook: any;
-  serving: any;
-  category: any;
-}
+import { Recipe, Comment } from "../types";
 
 const RecipeDetail = () => {
   const { pk } = useParams<{ pk: string }>();
@@ -30,35 +13,48 @@ const RecipeDetail = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await fetch(
-          `https://recipe-db-0boe.onrender.com/api/recipes/${pk}/`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch recipe");
+        if (!pk) return;
+
+        const docRef = doc(db, "recipes", pk);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+          setError("Recipe not found");
+          return;
         }
-        const data = await response.json();
-        console.log("Fetched Recipe:", data);
-        setRecipe(data);
-      } catch (error) {
-        setError("Error fetching data");
+
+        const recipeData = docSnap.data();
+
+        const commentsSnap = await getDocs(collection(docRef, "comments"));
+        const comments: Comment[] = commentsSnap.docs.map((commentDoc) => ({
+          id: commentDoc.id,
+          ...(commentDoc.data() as Omit<Comment, "id">),
+        }));
+
+        setRecipe({
+          id: docSnap.id,
+          title: recipeData.title,
+          image: recipeData.image,
+          ingredients: recipeData.ingredients,
+          steps: recipeData.steps,
+          prep: recipeData.prep,
+          cook: recipeData.cook,
+          serving: recipeData.serving,
+          category: recipeData.category,
+          comments,
+        });
+        
+      } catch (err) {
+        console.error(err);
+        setError("Error fetching recipe");
       }
     };
+
     fetchRecipe();
   }, [pk]);
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!recipe) {
-    return <div>Recipe not found</div>;
-  }
-
-  // Split the ingredients and steps by commas and new lines to convert them into arrays
-  const ingredientsArray =
-    recipe.ingredients.split(/\r?\n/).map((item) => item.trim()) || [];
-  const stepsArray =
-    recipe.steps.split(/\r?\n/).map((item) => item.trim()) || [];
+  if (error) return <div>{error}</div>;
+  if (!recipe) return <div>Recipe not found</div>;
 
   return (
     <>
@@ -67,36 +63,22 @@ const RecipeDetail = () => {
       </h2>
 
       <div className="text-center mt-4">
-        <p className="text-lightPlum font-semibold mb-2 sm: p-2">
-          Ready to cook up something amazing? Let’s dive into the delicious
-          details!
+        <p className="text-lightPlum font-semibold mb-2 sm:p-2">
+          Ready to cook up something amazing? Let’s dive into the delicious details!
         </p>
       </div>
 
-      {/* Add prep time, cook time, servings, and category across top of the page */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 m-6">
         <div className="text-white p-4 rounded-lg shadow-md text-grayDark">
-          <p>
-            <strong>Prep Time:</strong> {recipe.prep.time}
-          </p>
-          <p>
-            <strong>Cook Time:</strong> {recipe.cook.time}
-          </p>
-          <p>
-            <strong>Servings:</strong> {recipe.serving.serving}
-          </p>
-          <p>
-            <strong>Category:</strong> {recipe.category.name}
-          </p>
+          <p><strong>Prep Time:</strong> {recipe.prep?.time}</p>
+          <p><strong>Cook Time:</strong> {recipe.cook?.time}</p>
+          <p><strong>Servings:</strong> {recipe.serving?.serving}</p>
+          <p><strong>Category:</strong> {recipe.category?.name}</p>
         </div>
       </div>
 
-      <div
-        id="flexbox-container"
-        className="flex flex-col md:flex-row items-center md:items-start gap-8 p-4 m-4"
-      >
-        {/* Image Div- thinking to the left of the page */}
-        <div className="w-full md:w-2/5 h-144 flex-shrink-0 flex md:justify-start md:items-center mt-12 border border-solid">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-4 m-4">
+        <div className="w-full md:w-2/5 h-144 flex-shrink-0 mt-12 border">
           <img
             src={recipe.image}
             alt={recipe.title}
@@ -104,47 +86,38 @@ const RecipeDetail = () => {
           />
         </div>
 
-        {/* Ingredients and steps- thinking to the right of the page */}
         <div className="flex-grow">
           <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
           <ul className="list-disc p-10 bg-green bg-opacity-10 text-grayDark shadow-custom-light">
-            {ingredientsArray
-              .filter((ingredient) => ingredient.trim() !== "")
-              .map((ingredient, index) => (
-                <li key={index} className="ingredients mb-4 font-medium">
-                  {ingredient}
-                </li>
-              ))}
+            {recipe.ingredients.map((item, idx) =>
+              item.trim() ? (
+                <li key={idx} className="mb-4 font-medium">{item}</li>
+              ) : null
+            )}
           </ul>
         </div>
       </div>
 
-      {/* Steps- Full size of page */}
-      <div className=" mx-12">
+      <div className="mx-12">
         <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
-        <ol className="list-decimal list-inside font-bold text-grayDark ">
-          {stepsArray
-            .filter((step) => step.trim() !== "")
-            .map((step, index) => (
-              <li key={index} className="steps mb-4">
-                {step}
-              </li>
-            ))}
+        <ol className="list-decimal list-inside font-bold text-grayDark">
+          {recipe.steps.map((step, idx) =>
+            step.trim() ? <li key={idx} className="mb-4">{step}</li> : null
+          )}
         </ol>
       </div>
 
-      {/* Comment Div- thinking split with the comment form at the bottom of the page*/}
       <div>
         <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum text-center">
           Comments
         </h2>
         <div className="flex flex-col md:flex-row items-center gap-4 p-4">
-          <div className="w-full md:w-2/5 flex-shrink-0">
-            {recipe.comments && recipe.comments.length > 0 ? (
+          <div className="w-full md:w-2/5">
+            {recipe.comments.length > 0 ? (
               recipe.comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="border-4 border-double border-green m-4 p-4 shadow-custom-light overflow-hidden"
+                  className="border-4 border-double border-green m-4 p-4 shadow-custom-light"
                 >
                   {comment.text}
                 </div>
@@ -156,9 +129,8 @@ const RecipeDetail = () => {
             )}
           </div>
 
-          {/* Add comment form */}
           <div>
-            <AddComment pk={pk} setRecipe={setRecipe} />
+            <AddComment id={recipe.id} setRecipe={setRecipe} />
           </div>
         </div>
       </div>

@@ -1,31 +1,34 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { db, storage } from "../firebase";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
   image: string;
 }
 
 interface TimeOption {
-  id: number;
+  id: string;
   time: string;
 }
 
 interface Servings {
-  id: number;
+  id: string;
   serving: string;
 }
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
-  const [prep, setPrep] = useState(0);
+  const [prep, setPrep] = useState("");
   const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
-  const [cook, setCook] = useState(0);
+  const [cook, setCook] = useState("");
   const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
-  const [serving, setServing] = useState(0);
+  const [serving, setServing] = useState("");
   const [servingOptions, setServingOptions] = useState<Servings[]>([]);
-  const [category, setCategory] = useState(0);
+  const [category, setCategory] = useState("");
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
   const [ingredients, setIngredients] = useState("");
   const [steps, setSteps] = useState("");
@@ -36,74 +39,51 @@ const AddRecipe = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("prep", prep.toString());
-    formData.append("cook", cook.toString());
-    formData.append("serving", serving.toString());
-    formData.append("category", category.toString());
-    formData.append("ingredients", ingredients);
-    formData.append("steps", steps);
-    if (image) {
-      formData.append("image", image);
-    }
-
-    // checking the formData is being accepted
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-
     try {
-      const addRecipe = await fetch(
-        "https://recipe-db-0boe.onrender.com/api/recipes/",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      let imageUrl = "";
 
-      if (addRecipe.ok) {
-        alert("Thank you for sharing the yum!");
-        navigate("/recipes");
-      } else {
-        alert("Form not submitted, please try again.");
+      if (image) {
+        const imageRef = ref(storage, `recipes/${image.name}-${Date.now()}`);
+        await uploadBytes(imageRef, image);
+        imageUrl = await getDownloadURL(imageRef);
       }
+
+      await addDoc(collection(db, "recipes"), {
+        title,
+        prep,
+        cook,
+        serving,
+        categoryId: category,
+        ingredients: ingredients.split("\n"),
+        steps: steps.split("\n"),
+        image: imageUrl,
+        createdAt: new Date(),
+      });
+
+      alert("Thank you for sharing the yum!");
+      navigate("/recipes");
     } catch (error) {
-      console.error("Form submission failed:", error);
+      console.error("Error submitting recipe:", error);
+      alert("Something went wrong. Please try again.");
     }
   };
 
-  // Fetching the catagories, prep, cook, and servings options
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const catResponse = await fetch(
-          "https://recipe-db-0boe.onrender.com/api/categories/"
-        );
-        const catData = await catResponse.json();
-        setCategoryOptions(catData);
+        const catSnap = await getDocs(collection(db, "categories"));
+        setCategoryOptions(catSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Category)));
 
-        const prepResponse = await fetch(
-          "https://recipe-db-0boe.onrender.com/api/prep-options/"
-        );
-        const prepData = await prepResponse.json();
-        setPrepOptions(prepData);
+        const prepSnap = await getDocs(collection(db, "prep-options"));
+        setPrepOptions(prepSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TimeOption)));
 
-        const cookResponse = await fetch(
-          "https://recipe-db-0boe.onrender.com/api/cook-options/"
-        );
-        const cookData = await cookResponse.json();
-        setCookOptions(cookData);
+        const cookSnap = await getDocs(collection(db, "cook-options"));
+        setCookOptions(cookSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as TimeOption)));
 
-        const servResponse = await fetch(
-          "https://recipe-db-0boe.onrender.com/api/serving-options/"
-        );
-        const servData = await servResponse.json();
-        setServingOptions(servData);
-
-        console.log(catData, prepData, cookData, servData);
+        const servSnap = await getDocs(collection(db, "serving-options"));
+        setServingOptions(servSnap.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Servings)));
       } catch (error) {
-        console.error("Error fetching options", error);
+        console.error("Error loading options:", error);
       }
     };
 
@@ -119,131 +99,48 @@ const AddRecipe = () => {
 
       <div className="text-center m-4">
         <p className="text-darkPlum font-semibold">
-          Thank you for contributing to our community! Your recipe helps make
-          this place more delicious.
+          Thank you for contributing to our community! Your recipe helps make this place more delicious.
         </p>
       </div>
 
       <div className="flex justify-center">
         <div className="w-full max-w-lg sm: p-4">
-          <form
-            method="POST"
-            encType="multipart/form-data"
-            onSubmit={handleSubmit}
-            className="bg-green p-6 rounded-lg shadow-custom-dark"
-          >
-            {/* Enter recipe title */}
-            <input
-              type="text"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              name="title"
-              id="title"
-              placeholder="Title"
-              required
-            />
+          <form onSubmit={handleSubmit} className="bg-green p-6 rounded-lg shadow-custom-dark">
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
 
-            {/* Pre time select */}
-            <select
-              value={prep}
-              onChange={(event) => setPrep(parseInt(event.target.value))}
-              name="prep"
-              id="prep"
-              required
-            >
+            <select value={prep} onChange={(e) => setPrep(e.target.value)} required>
               <option value="">Select Prep Time</option>
-              {prepOptions.map((prepData) => (
-                <option key={prepData.id} value={prepData.id}>
-                  {prepData.time}
-                </option>
+              {prepOptions.map((p) => (
+                <option key={p.id} value={p.id}>{p.time}</option>
               ))}
             </select>
 
-            {/* Cook time select */}
-            <select
-              value={cook}
-              onChange={(event) => setCook(parseInt(event.target.value))}
-              name="cook"
-              id="cook"
-              required
-            >
+            <select value={cook} onChange={(e) => setCook(e.target.value)} required>
               <option value="">Select Cook Time</option>
-              {cookOptions.map((cookData) => (
-                <option key={cookData.id} value={cookData.id}>
-                  {cookData.time}
-                </option>
+              {cookOptions.map((c) => (
+                <option key={c.id} value={c.id}>{c.time}</option>
               ))}
             </select>
 
-            {/* Servings select */}
-            <select
-              value={serving}
-              onChange={(event) => setServing(parseInt(event.target.value))}
-              name="serving"
-              id="serving"
-              required
-            >
+            <select value={serving} onChange={(e) => setServing(e.target.value)} required>
               <option value="">Select Servings</option>
-              {servingOptions.map((servData) => (
-                <option key={servData.id} value={servData.id}>
-                  {servData.serving}
-                </option>
+              {servingOptions.map((s) => (
+                <option key={s.id} value={s.id}>{s.serving}</option>
               ))}
             </select>
 
-            {/* Category select */}
-            <select
-              value={category}
-              onChange={(event) => setCategory(parseInt(event.target.value))}
-              name="category"
-              id="category"
-              required
-            >
+            <select value={category} onChange={(e) => setCategory(e.target.value)} required>
               <option value="">Select Category</option>
-              {categoryOptions.map((catData) => (
-                <option key={catData.id} value={catData.id}>
-                  {catData.name}
-                </option>
+              {categoryOptions.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
 
-            {/* Enter ingredients */}
-            <textarea
-              value={ingredients}
-              onChange={(event) => setIngredients(event.target.value)}
-              name="ingredients"
-              id="ingredients"
-              placeholder="Ingredients, add each new ingredient to a new line."
-              required
-            />
+            <textarea value={ingredients} onChange={(e) => setIngredients(e.target.value)} placeholder="Ingredients (one per line)" required />
+            <textarea value={steps} onChange={(e) => setSteps(e.target.value)} placeholder="Steps (one per line)" required />
+            <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} required />
 
-            {/* Enter steps */}
-            <textarea
-              value={steps}
-              onChange={(event) => setSteps(event.target.value)}
-              name="steps"
-              id="steps"
-              placeholder="Steps, add each new step to a new line."
-              required
-            />
-
-            {/* Upload image */}
-            <input
-              type="file"
-              accept="image/*"
-              name="file"
-              id="file"
-              onChange={(event) => setImage(event.target.files?.[0] || null)}
-              required
-            />
-
-            {/* Submit button */}
-            <button
-              type="submit"
-              name="add-btn"
-              id="add-btn"
-              className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
-            >
+            <button type="submit" className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green hover:text-grayLight">
               Share the YUM!
             </button>
           </form>

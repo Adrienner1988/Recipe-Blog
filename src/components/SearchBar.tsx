@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-interface Category {
-  id: number;
+interface CategoryData {
+  id: string;
   name: string;
   image: string;
 }
@@ -12,7 +12,7 @@ interface SearchBarProps {
     ingredient?: string;
     category?: string;
   }) => void;
-  categories: Category[];
+  categories: CategoryData[];
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {

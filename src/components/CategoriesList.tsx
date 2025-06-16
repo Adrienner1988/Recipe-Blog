@@ -1,17 +1,12 @@
-import { Link } from "react-router-dom";
-
-export interface Category {
-  id: string;
-  name: string;
-  image: string;
-}
+import { CategoryData } from "../types";
+import CategoryCard from "./CategoryCard";
 
 interface CategoriesListProps {
-  categories: Category[];
+  categories: CategoryData[];
 }
 
 const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
-  if (categories.length === 0) {
+  if (!categories || categories.length === 0) {
     return (
       <div className="text-center m-4">
         <p className="text-darkPlum font-semibold">
@@ -22,37 +17,21 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
   }
 
   return (
-    <>
-      <div className="text-center m-4">
-        <p className="text-darkPlum font-semibold">
-          Explore your next culinary adventure! Click a category to discover
-          mouth-watering recipes.
-        </p>
-      </div>
+    <section id="categories" className="container py-20">
+      <h2 className="text-3xl font-bold text-center mb-4 font-serif">Recipe Categories</h2>
+      <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
 
-      <div className="flex justify-center">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 py-4 px-4">
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              to={`/recipes?category=${category.id}`}
-              className="relative w-32 h-32 rounded-full overflow-hidden shadow-custom-light transition-transform duration-300 hover:scale-105 group hover:shadow-custom-dark"
-            >
-              <img
-                src={category.image}
-                alt={category.name}
-                className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-40"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-opacity-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <h3 className="text-gray text-lg font-semibold group-hover:text-lightPlum transition-colors duration-300 uppercase">
-                  {category.name}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
+        {categories.map((category) => (
+          <CategoryCard
+            key={category.id}
+            id={category.id}
+            name={category.name}
+            image={category.image}
+          />
+        ))}
       </div>
-    </>
+    </section>
   );
 };
 

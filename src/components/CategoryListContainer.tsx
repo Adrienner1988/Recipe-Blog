@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import CategoriesList, { Category } from "./CategoriesList"; 
+import CategoriesList from "./CategoriesList";
+import type { CategoryData } from "../types";
 
 const CategoryListContainer = () => {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<CategoryData[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -12,9 +13,9 @@ const CategoryListContainer = () => {
         const fetchCategories = async () => {
             try {
                 const snapshot = await getDocs(collection(db, "categories"));
-                const data = snapshot.docs.map((doc) => ({
+                const data: CategoryData[] = snapshot.docs.map((doc) => ({
                     id: doc.id,
-                    ...(doc.data() as Omit<Category, "id">),
+                    ...(doc.data() as Omit<CategoryData, "id">),
                 }));
                 setCategories(data);
             } catch (err) {
@@ -35,6 +36,3 @@ const CategoryListContainer = () => {
 };
 
 export default CategoryListContainer;
-
-// This component fetches categories from Firestore and passes them to CategoriesList for rendering.
-// It handles loading and error states, displaying appropriate messages while data is being fetched or if an error occurs.  
