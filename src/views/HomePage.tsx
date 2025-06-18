@@ -1,8 +1,10 @@
 import About from "../components/About";
 import CategoryListContainer from "../components/CategoryListContainer";
-import SearchBar from "../components/SearchBar";
+// import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
+
+  
   return (
     <>
       {/* NEW SECTION: Discover a world of flavors */}
@@ -20,11 +22,14 @@ const HomePage = () => {
             Explore thousands of recipes from around the globe. Your next
             favorite dish is just a search away.
           </p>
-          
+
           <div className="relative flex flex-col sm:flex-row sm:space-x-4 justify-center lg:justify-start">
-            <div className="relative w-full sm:w-auto">
-              <SearchBar onSearch={() => {}} categories={[]} />
-            </div>
+            {/* <div className="relative w-full sm:w-auto">
+              <SearchBar onSearch={handleSearch} categories={categories} />
+            </div> */}
+            {/* <Button onClick={() => navigate('/recipes')} className="mt-4 sm:mt-0 w-full sm:w-auto">
+              Explore Recipes */}
+            
           </div>
         </div>
         <div className="hidden lg:block">

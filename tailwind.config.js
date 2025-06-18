@@ -9,18 +9,43 @@ export default {
       xl: "1440px",
     },
     colors: {
-      darkPlum: "#860a35",
-      lightPlum: "#aF2655",
-      pink: "#ff49db",
-      green: "#a3B763",
-      grayDark: "#273444",
-      gray: "#8492a6",
-      grayLight: "#d3dce6",
+      // Primary Colors
+      primary: "hsl(346.8 77.2% 49.8%)",
+      "primary-foreground": "hsl(355.7 100% 97.3%)",
+
+      // Secondary Colors
+      secondary: "hsl(142.1 70.2% 40.3%)",
+      "secondary-foreground": "hsl(355.7 100% 97.3%)",
+
+      // Accent Colors
+      accent: "hsl(43.1 95.5% 56.9%)",
+      "accent-foreground": "hsl(25 95% 53.1%)",
+
+      // Neutral Colors
+      background: "hsl(240 10% 99%)",
+      foreground: "hsl(240 10% 3.9%)",
+      muted: "hsl(240 4.8% 95.9%)",
+      "muted-foreground": "hsl(240 3.8% 46.1%)",
+
+      // UI Element Colors
+      // Assuming "Card: White backgrounds with dark text" means pure white for the card background.
+      card: "hsl(0 0% 100%)", // Pure white for card background
+      border: "hsl(240 5.9% 90%)",
+      input: "hsl(240 5.9% 90%)", // Same as border color
+      destructive: "hsl(0 84.2% 60.2%)",
     },
+    // Define your custom font families.
+    // 'sans' and 'serif' are standard Tailwind categories.
     fontFamily: {
-      Montserrat: ["Montserrat", "sans-serif"],
+      sans: ["Poppins", "sans-serif"], // Set Poppins as the default sans-serif font
+      serif: ["Lora", "serif"], // Set Lora as the default serif font
+      // If you still plan to use Montserrat for any specific elements, keep it.
+      // Otherwise, you can remove it as Poppins is now your primary sans-serif.
+      // Montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
+      // Your existing extend properties remain here,
+      // as they add to Tailwind's defaults rather than overwriting.
       spacing: {
         128: "32rem",
         144: "36rem",
