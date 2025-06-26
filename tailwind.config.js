@@ -9,43 +9,46 @@ export default {
       xl: "1440px",
     },
     colors: {
-      // Primary Colors
-      primary: "hsl(346.8 77.2% 49.8%)",
-      "primary-foreground": "hsl(355.7 100% 97.3%)",
+      // Base UI - These typically override defaults or define core semantic colors
+      white: "hsl(0, 0%, 100%)",
+      black: "hsl(240, 10%, 3.9%)",
+      background: "hsl(240, 10%, 99%)",
+      foreground: "hsl(240, 10%, 3.9%)",
+      card: "hsl(0, 0%, 100%)",
+      "card-foreground": "hsl(240, 10%, 3.9%)",
+      popover: "hsl(0, 0%, 100%)",
+      "popover-foreground": "hsl(240, 10%, 3.9%)",
 
-      // Secondary Colors
-      secondary: "hsl(142.1 70.2% 40.3%)",
-      "secondary-foreground": "hsl(355.7 100% 97.3%)",
+      // Primary brand – Plum pink
+      primary: "hsl(346.8, 77.2%, 49.8%)", // Mapped 'plum' to 'primary'
+      "primary-foreground": "hsl(355.7, 100%, 97.3%)", // Mapped 'plum-foreground' to 'primary-foreground'
 
-      // Accent Colors
-      accent: "hsl(43.1 95.5% 56.9%)",
-      "accent-foreground": "hsl(25 95% 53.1%)",
+      // Secondary brand – Mint green
+      secondary: "hsl(142.1, 70.2%, 40.3%)", // Mapped 'mint' to 'secondary'
+      "secondary-foreground": "hsl(355.7, 100%, 97.3%)", // Mapped 'mint-foreground' to 'secondary-foreground'
 
-      // Neutral Colors
-      background: "hsl(240 10% 99%)",
-      foreground: "hsl(240 10% 3.9%)",
-      muted: "hsl(240 4.8% 95.9%)",
-      "muted-foreground": "hsl(240 3.8% 46.1%)",
+      // Accent – Golden yellow
+      accent: "hsl(43.1, 95.5%, 56.9%)", // Mapped 'gold' to 'accent'
+      "accent-foreground": "hsl(25, 95%, 53.1%)", // Mapped 'gold-foreground' to 'accent-foreground'
 
-      // UI Element Colors
-      // Assuming "Card: White backgrounds with dark text" means pure white for the card background.
-      card: "hsl(0 0% 100%)", // Pure white for card background
-      border: "hsl(240 5.9% 90%)",
-      input: "hsl(240 5.9% 90%)", // Same as border color
-      destructive: "hsl(0 84.2% 60.2%)",
+      // Muted – Grays
+      muted: "hsl(240, 4.8%, 95.9%)",
+      "muted-foreground": "hsl(240, 3.8%, 46.1%)",
+
+      // Error / Destructive
+      destructive: "hsl(0, 84.2%, 60.2%)", // Mapped 'red' to 'destructive'
+      "destructive-foreground": "hsl(0, 0%, 98%)", // Mapped 'red-foreground' to 'destructive-foreground'
+
+      // UI Elements
+      border: "hsl(240, 5.9%, 90%)",
+      input: "hsl(240, 5.9%, 90%)",
+      ring: "hsl(346.8, 77.2%, 49.8%)", // Mapped 'plum' to 'ring'
     },
-    // Define your custom font families.
-    // 'sans' and 'serif' are standard Tailwind categories.
     fontFamily: {
-      sans: ["Poppins", "sans-serif"], // Set Poppins as the default sans-serif font
-      serif: ["Lora", "serif"], // Set Lora as the default serif font
-      // If you still plan to use Montserrat for any specific elements, keep it.
-      // Otherwise, you can remove it as Poppins is now your primary sans-serif.
-      // Montserrat: ["Montserrat", "sans-serif"],
+      sans: ["Poppins", "sans-serif"],
+      serif: ["Lora", "serif"],
     },
     extend: {
-      // Your existing extend properties remain here,
-      // as they add to Tailwind's defaults rather than overwriting.
       spacing: {
         128: "32rem",
         144: "36rem",
@@ -60,6 +63,14 @@ export default {
         "custom-light": "0px 4px 8px rgba(0, 0, 0, 0.1)",
         "custom-dark": "0px 6px 12px rgba(0, 0, 0, 0.2)",
         "text-shadow": "1px 1px 2px rgba(0, 0, 0, 0.8)",
+      },
+      // Explicit custom colors (useful if not directly mapped to semantic names, or for gradients)
+      colors: {
+        // <-- These colors are now explicitly inside `extend.colors`
+        plum: "hsl(346.8, 77.2%, 49.8%)", 
+        lightPlum: "hsl(355.7, 100%, 97.3%)", // As used in your H1
+        "gradient-pink-start": "#F596D3", // Specific color for the start of your "Discover" gradient
+        "gradient-pink-end": "#D247BF", // Specific color for the end of your "Discover" gradient
       },
     },
   },

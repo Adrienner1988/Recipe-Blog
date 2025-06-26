@@ -1,6 +1,6 @@
 import About from "../components/About";
 import CategoryListContainer from "../components/CategoryListContainer";
-// import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/SearchBar";
 
 const HomePage = () => {
 
@@ -12,7 +12,7 @@ const HomePage = () => {
         <div className="text-center lg:text-left space-y-6">
           <main className="text-5xl md:text-6xl font-bold font-serif">
             <h1 className="inline">
-              <span className="inline bg-gradient-to-r from-[#F596D3] to-[#D247BF] text-transparent bg-clip-text">
+              <span className="inline text-secondary text-transparent bg-clip-text">
                 Discover
               </span>{" "}
               a world of flavors
@@ -24,11 +24,11 @@ const HomePage = () => {
           </p>
 
           <div className="relative flex flex-col sm:flex-row sm:space-x-4 justify-center lg:justify-start">
-            {/* <div className="relative w-full sm:w-auto">
+            <div className="relative w-full sm:w-auto">
               <SearchBar onSearch={handleSearch} categories={categories} />
-            </div> */}
-            {/* <Button onClick={() => navigate('/recipes')} className="mt-4 sm:mt-0 w-full sm:w-auto">
-              Explore Recipes */}
+            </div> 
+            <Button onClick={() => navigate('/recipes')} className="mt-4 sm:mt-0 w-full sm:w-auto">
+              Explore Recipes </Button>
             
           </div>
         </div>

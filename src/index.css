@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-layer components {
+@layer components {
+
+  /* Global styles for the entire app */
+  body {
+    /* Set default background and foreground text colors for the entire app */
+    @apply bg-background text-foreground font-sans;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
 
   /* Headings: Using new foreground color and serif font for elegant text */
   h2 {
@@ -30,10 +40,4 @@ layer components {
     /* shadow-custom-light from your existing config */
     @apply border-none bg-primary rounded-xl p-2 uppercase text-primary-foreground transition-all duration-500 hover:bg-secondary hover:text-secondary-foreground cursor-pointer shadow-custom-light hover:scale-105;
   }
-}
-
-/* You might want to add some global styles too, e.g., for the body */
-body {
-  /* Set default background and foreground text colors for the entire app */
-  @apply bg-background text-foreground font-sans;
 }
