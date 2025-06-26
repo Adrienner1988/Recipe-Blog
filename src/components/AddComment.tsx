@@ -5,7 +5,7 @@ import { Recipe , Comment } from "../types";
 
 interface AddCommentProps {
   id: string;
-  setRecipe: (recipe: Recipe) => void;
+  setRecipe: React.Dispatch<React.SetStateAction<(Recipe & { comments: Comment[]; categoryName?: string }) | null>>;
 }
 
 const AddComment = ({ id, setRecipe }: AddCommentProps) => {
@@ -17,7 +17,7 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
     if (!text.trim()) return;
 
     try {
-      const recipeRef = doc(db, "recipes", id);
+      const recipeRef = doc(db, "recipe", id);
       const commentRef = collection(recipeRef, "comments");
 
       await addDoc(commentRef, {
@@ -38,15 +38,19 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
 
       if (recipeData) {
         setRecipe({
-          id: recipeSnap.id,
+          id,
           title: recipeData.title,
           image: recipeData.image,
-          ingredients: recipeData.ingredients,
-          steps: recipeData.steps,
-          prep: recipeData.prep ,
+          prep: recipeData.prep,
           cook: recipeData.cook,
           serving: recipeData.serving,
-          categoryId: recipeData.category,
+          categoryId: recipeData.categoryId,
+          categoryName: recipeData.categoryName,
+          ingredients: recipeData.ingredients,
+          steps: recipeData.steps,
+          author: recipeData.author,
+          createdAt: recipeData.createdAt?.toDate?.() ?? null,
+          comments: comments, 
         });
       }
       

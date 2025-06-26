@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-// import AddComment from "../components/AddComment";
+import AddComment from "../components/AddComment";
 import { Recipe, Comment } from "../types";
 
 const RecipeDetail = () => {
@@ -134,21 +134,21 @@ const RecipeDetail = () => {
               recipe.comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="border-4 border-double border-green m-4 p-4 shadow-custom-light"
+                  className="border-4 border-double primary m-4 p-4 shadow-custom-light"
                 >
                   {comment.text}
                 </div>
               ))
             ) : (
-              <p className="text-center text-lg text-grayDark">
+              <p className="text-center text-lg primary">
                 No comments yet, be the first to share your thoughts.
               </p>
             )}
           </div>
 
-          {/* <div>
+           <div>
             <AddComment id={recipe.id} setRecipe={setRecipe} />
-          </div> */}
+          </div> 
         </div>
       </div>
     </>

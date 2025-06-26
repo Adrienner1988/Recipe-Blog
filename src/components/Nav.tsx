@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { RiMenu5Fill, RiMenuFold4Line } from "react-icons/ri";
+import { LuChefHat } from "react-icons/lu";
 
 
 const Nav = () => {
@@ -13,7 +14,7 @@ const Nav = () => {
         <div className="container flex h-16 items-center">
           <div className="mr-4 flex">
             <NavLink to="/" className="mr-6 flex items-center space-x-2">
-              {/* <CookingPot className="h-6 w-6 text-primary" /> */}
+                <LuChefHat className="h-6 w-6 text-primary" />
               <span className="font-bold font-sans">Recipe Rainbow</span>
             </NavLink>
             <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -43,13 +44,12 @@ const Nav = () => {
                 }
               >
                 Submit Recipe
+                Submit Recipe
               </NavLink>
-              <a href="#about" className="transition-colors hover:text-primary px-3 py-2 rounded-full hover:bg-accent hover:text-accent-foreground">About</a>
-              <a href="#categories" className="transition-colors hover:text-primary px-3 py-2 rounded-full hover:bg-accent hover:text-accent-foreground">Categories</a>
             </nav>
           </div>
-    
-                {/* Side Menu */}
+
+          {/* Side Menu */}
           <button
             className="md:hidden ml-4"
             onClick={() => setIsOpen(!isOpen)}
