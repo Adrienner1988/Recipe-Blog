@@ -32,12 +32,15 @@
   }
 
   /* Buttons: Using new primary background, foreground colors, and hover effects */
-  button {
-    /* bg-primary is your vibrant pink/magenta */
-    /* text-primary-foreground is your very light pink/white text on primary */
-    /* hover:bg-secondary for a nice green hover effect */
-    /* hover:text-secondary-foreground for light text on green hover */
-    /* shadow-custom-light from your existing config */
-    @apply border-none bg-primary rounded-xl p-2 uppercase text-primary-foreground transition-all duration-500 hover:bg-secondary hover:text-secondary-foreground cursor-pointer shadow-custom-light hover:scale-105;
-  }
+    .btn-primary {
+      @apply bg-primary text-primary-foreground rounded-xl p-2 uppercase transition-all duration-500 hover:bg-secondary hover:text-secondary-foreground cursor-pointer shadow-custom-light hover:scale-105;
+    }
+  
+    .btn-secondary {
+      @apply bg-secondary text-white rounded-xl p-2 uppercase transition-all duration-500 hover:bg-secondary;
+    }
+  
+    .btn-outline {
+      @apply border border-accent text-primary bg-white hover:bg-secondary hover:text-white rounded-xl p-2 uppercase transition-all duration-500;
+    }
 }

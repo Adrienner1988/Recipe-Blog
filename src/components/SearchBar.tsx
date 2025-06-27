@@ -1,19 +1,16 @@
 import { useState } from "react";
-
-interface CategoryData {
-  id: string;
-  name: string;
-  image: string;
-}
+import { CategoryData } from "../types"; 
+import Button from "./Button";
 
 interface SearchBarProps {
   onSearch: (queries: {
     title?: string;
-    ingredient?: string;
+    ingredients?: string[];
     category?: string;
   }) => void;
   categories: CategoryData[];
 }
+
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
   const [title, setTitle] = useState("");
@@ -21,10 +18,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
   const [category, setCategory] = useState("");
 
   const handleSearch = () => {
-    const queries = { title, ingredient, category };
-    onSearch(queries);
-    console.log("Search Clicked");
+    const ingredientsArray = ingredient
+      .split(",")
+      .map((ing) => ing.trim())
+      .filter(Boolean); // remove empty strings
+
+    onSearch({
+      title,
+      category,
+      ingredients: ingredientsArray.length ? ingredientsArray : undefined,
+    });
   };
+  
 
   return (
     <div className="mb-8 sm: p-4 cursor-text">
@@ -33,19 +38,19 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Search by title..."
-        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-2 mr-2"
+        className="border-2 border-solid border-accent transition-all duration-500 hover:border-muted rounded-xl p-2 mr-2"
       />
       <input
         type="text"
         value={ingredient}
         onChange={(e) => setIngredient(e.target.value)}
-        placeholder="Search by ingredient..."
-        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-2 mr-2"
+        placeholder="Search by ingredient(s), separate ingredients with commas"
+        className="border-2 border-solid border-secondary transition-all duration-500 hover:border-muted rounded-xl p-2 mr-2"
       />
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="border-2 border-solid border-darkPlum transition-all duration-500 hover:border-green rounded-xl p-2 mr-2"
+        className="border-2 border-solid border-primary transition-all duration-500 hover:border-muted rounded-xl p-2 mr-2"
       >
         <option value="">Select Category</option>
         {categories.map((cat) => (
@@ -54,7 +59,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
           </option>
         ))}
       </select>
-      <button onClick={handleSearch}>Search</button>
+      <Button type="button" onClick={handleSearch}>Search</Button>
     </div>
   );
 };
