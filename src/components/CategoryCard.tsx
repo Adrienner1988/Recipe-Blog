@@ -1,22 +1,30 @@
 import { CategoryData } from '../types';
 import { Link } from 'react-router-dom';
+import {  motion } from 'framer-motion';
 
 const CategoryCard = ({ id, name, image }: CategoryData) => (
+    <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="rounded-full overflow-hidden shadow-lg"
+    >
     <Link
         to={`/recipes?category=${id}`}
-        className="group mx-auto h-36 w-36 rounded-full overflow-hidden shadow-lg transform hover:scale-105 transition-all duration-300 bg-white"
+            className="group block h-36 w-36 rounded-full overflow-hidden relative transform transition-transform duration-300 hover:scale-105"
     >
         <img
             src={image}
             alt={name}
-            className="w-full h-40 object-cover group-hover:opacity-80 transition duration-300"
+            className="w-full h-full object-cover group-hover:opacity-80 transition duration-300"
         />
-        <div className="p-4 text-center">
-            <h3 className="text-lg font-semibold text-darkPlum group-hover:text-primary transition">
+            <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                <h3 className="text-white text-lg font-semibold text-center px-2">
                 {name}
             </h3>
         </div>
     </Link>
+    </motion.div>
 );
 
 export default CategoryCard;
