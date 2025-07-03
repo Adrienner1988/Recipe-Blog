@@ -33,6 +33,7 @@ A list of the technologies and tools used in the project:
 - Tailwind CSS
 - React Router
 - Google Fonts
+- Motion for React (Farmer Motion)
 
 ## Getting Started
 
