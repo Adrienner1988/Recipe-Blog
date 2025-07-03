@@ -1,5 +1,6 @@
 import { CategoryData } from "../types";
 import CategoryCard from "./CategoryCard";
+import { motion } from "framer-motion";
 
 interface CategoriesListProps {
   categories: CategoryData[];
@@ -17,16 +18,35 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
   }
 
   return (
-    <section className="container mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-center text-primary mb-8">
+    <motion.section
+      className="container mx-auto px-4 py-12"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      <motion.h2
+        className="text-3xl font-bold text-center text-primary mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        viewport={{ once: true }}
+      >
         Browse by Category
-      </h2>
-      <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 place-items-center">
+      </motion.h2>
+
+      <motion.div
+        className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 place-items-center"
+        initial="hidden"
+        whileInView="visible"
+        transition={{ staggerChildren: 0.1 }}
+        viewport={{ once: true }}
+      >
         {categories.map((category) => (
           <CategoryCard key={category.id} {...category} />
         ))}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 

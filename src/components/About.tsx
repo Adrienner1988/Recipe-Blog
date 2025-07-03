@@ -1,6 +1,12 @@
+import { motion } from 'framer-motion';
+
 const About = () => {
     return (
-        <section id="about" className="bg-muted text-opacity-15">
+        <motion.section id="about" 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}className="bg-muted text-opacity-15">
             <div className="container text-center py-20">
                 <h2 className="text-3xl font-bold mb-4 font-serif">About Recipe Rainbow</h2>
                 <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
@@ -13,7 +19,7 @@ const About = () => {
                     dish is a part of a beautiful culinary spectrum.
                 </p>
             </div>
-        </section>
+        </motion.section>
     );
 };
 
