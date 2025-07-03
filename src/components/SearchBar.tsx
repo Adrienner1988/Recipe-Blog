@@ -11,7 +11,6 @@ interface SearchBarProps {
   categories: CategoryData[];
 }
 
-
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
   const [title, setTitle] = useState("");
   const [ingredient, setIngredient] = useState("");
@@ -30,7 +29,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, categories }) => {
     });
   };
   
-
   return (
     <div className="mb-8 sm: p-4 cursor-text">
       <input

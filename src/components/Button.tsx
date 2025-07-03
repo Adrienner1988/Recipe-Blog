@@ -19,7 +19,6 @@ const Button = ({
         outline: "btn-outline",
     };
 
-
     return (
         <button
         type={type}

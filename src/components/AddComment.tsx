@@ -1,7 +1,8 @@
 import { useState, FormEvent } from "react";
 import { collection, addDoc, Timestamp, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { Recipe , Comment } from "../types";
+import { Recipe, Comment } from "../types";
+import Button from "./Button";
 
 interface AddCommentProps {
   id: string;
@@ -30,7 +31,6 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
       // Re-fetch recipe and comments
       const recipeSnap = await getDoc(recipeRef);
       const commentSnap = await getDocs(commentRef);
-
       const recipeData = recipeSnap.data();
       const comments = commentSnap.docs.map((doc) => ({
         ...(doc.data() as Comment),
@@ -50,13 +50,11 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
           steps: recipeData.steps,
           author: recipeData.author,
           createdAt: recipeData.createdAt?.toDate?.() ?? null,
-          comments: comments, 
+          comments: comments,
         });
       }
-      
-      
-      
-
+      setText("");
+      console.log("Comment submitted successfully");
       alert("Thank you for the rating this recipe!");
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -76,14 +74,11 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
           placeholder="Let everyone know your thoughts about this recipe ✨"
           required
         ></textarea>
-        <button
+        <Button
           type="submit"
-          name="sub-btn"
-          id="sub-btn"
-          className="border-none bg-darkPlum rounded-xl p-2 uppercase text-green transition-all duration-500 hover:text-grayLight cursor-pointer"
         >
           Share Your Thoughts!
-        </button>
+        </Button>
       </form>
     </div>
   );
