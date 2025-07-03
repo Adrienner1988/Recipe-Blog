@@ -12,7 +12,6 @@ import {
 import SearchBar from "../components/SearchBar";
 import { Recipe, CategoryData } from "../types";
 
-
 const RecipeList = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [categories, setCategories] = useState<CategoryData[]>([]);
@@ -24,17 +23,29 @@ const RecipeList = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const location = useLocation();
 
-  // Fetch recipes from Firestore
+  // Parse query parameters from URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    const title = params.get("title") || undefined;
+    const categoryId = params.get("category") || undefined;
+    const ingredients = params.getAll("ingredients");
+
+    setQueries({
+      title,
+      categoryId,
+      ingredients: ingredients.length > 0 ? ingredients : undefined,
+    });
+  }, [location.search]);
+
+  // Fetch recipes from Firestore and apply local filters
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         let recipeQuery: Query<DocumentData> = collection(db, "recipe");
 
         if (queries.categoryId) {
-          recipeQuery = query(
-            collection(db, "recipe"),
-            where("categoryId", "==", queries.categoryId)
-          );
+          recipeQuery = query(recipeQuery, where("categoryId", "==", queries.categoryId));
         }
 
         const snapshot = await getDocs(recipeQuery);
@@ -43,13 +54,15 @@ const RecipeList = () => {
           ...(doc.data() as Omit<Recipe, "id">),
         }));
 
-        // Optional local filtering
+        // Local filtering
         let filtered = data;
+
         if (queries.title) {
           filtered = filtered.filter((r) =>
             r.title.toLowerCase().includes(queries.title!.toLowerCase())
           );
         }
+
         if (queries.ingredients && queries.ingredients.length > 0) {
           filtered = filtered.filter((r) =>
             queries.ingredients!.some((searchIng) =>
@@ -75,7 +88,7 @@ const RecipeList = () => {
     fetchRecipes();
   }, [queries]);
 
-  // Fetch categories from Firestore
+  // Fetch categories for the SearchBar
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -92,16 +105,6 @@ const RecipeList = () => {
 
     fetchCategories();
   }, []);
-
-  // Sync category from URL search params
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const category = params.get("category");
-    setQueries((prev) => ({
-      ...prev,
-      category: category || undefined,
-    }));
-  }, [location.search]);
 
   const handleSearch = (criteria: {
     title?: string;
