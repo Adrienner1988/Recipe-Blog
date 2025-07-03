@@ -80,13 +80,13 @@ const RecipeDetail = () => {
       </h2>
 
       <div className="text-center mt-4">
-        <p className="text-lightPlum font-semibold mb-2 sm:p-2">
+        <p className="text-gradient-pink-end font-semibold mb-2 sm:p-2">
           Ready to cook up something amazing? Let’s dive into the delicious details!
         </p>
       </div>
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 m-6">
-        <div className="text-white p-4 rounded-lg shadow-md text-grayDark">
+        <div className="text-muted-foreground p-4 rounded-lg shadow-md text-grayDark">
           <p><strong>Prep Time:</strong> {recipe.prep}</p>
           <p><strong>Cook Time:</strong> {recipe.cook}</p>
           <p><strong>Servings:</strong> {recipe.serving}</p>
@@ -95,17 +95,17 @@ const RecipeDetail = () => {
       </div>
 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-4 m-4">
-        <div className="w-full md:w-2/5 h-144 flex-shrink-0 mt-12 border">
+        <div className="w-full md:w-2/5 h-144 flex-shrink-0 mt-12 border rounded-lg">
           <img
             src={recipe.image}
             alt={recipe.title}
-            className="w-full h-full object-cover shadow-custom-light"
+            className="w-full h-full object-cover rounded-lg shadow-custom-light"
           />
         </div>
 
         <div className="flex-grow">
-          <h2 className="font-bold text-lg text-lightPlum mb-2">Ingredients</h2>
-          <ul className="list-disc p-10 bg-green bg-opacity-10 text-grayDark shadow-custom-light">
+          <h2 className="font-bold text-lg text-plum mt-2 mb-2">Ingredients</h2>
+          <ul className="list-disc text-muted-foreground  bg-plum bg-opacity-10 p-10 rounded-lg">
             {recipe.ingredients.map((item, idx) =>
               item.trim() ? (
                 <li key={idx} className="mb-4 font-medium">{item}</li>
@@ -116,8 +116,8 @@ const RecipeDetail = () => {
       </div>
 
       <div className="mx-12">
-        <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum">Steps</h2>
-        <ol className="list-decimal list-inside font-bold text-grayDark">
+        <h2 className="font-bold text-lg mt-4 mb-2 text-plum">Steps</h2>
+        <ol className="list-decimal list-inside font-bold text-muted-foreground bg-secondary bg-opacity-10 p-10 rounded-lg">
           {recipe.steps.map((step, idx) =>
             step.trim() ? <li key={idx} className="mb-4">{step}</li> : null
           )}
@@ -125,7 +125,7 @@ const RecipeDetail = () => {
       </div>
 
       <div>
-        <h2 className="font-bold text-lg mt-4 mb-2 text-lightPlum text-center">
+        <h2 className="font-bold text-lg mt-4 mb-2 text-plum text-center">
           Comments
         </h2>
         <div className="flex flex-col md:flex-row items-center gap-4 p-4">
@@ -134,7 +134,7 @@ const RecipeDetail = () => {
               recipe.comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="border-4 border-double primary m-4 p-4 shadow-custom-light"
+                  className="border-4 border-accent primary m-4 p-4 shadow-custom-light rounded-lg"
                 >
                   {comment.text}
                 </div>
