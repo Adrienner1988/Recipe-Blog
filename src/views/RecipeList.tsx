@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import SearchBar from "../components/SearchBar";
 import { Recipe, CategoryData } from "../types";
+import { motion } from "framer-motion";
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -131,10 +132,13 @@ const RecipeList = () => {
       )}
 
       <div className="card-container flex justify-center items-center flex-wrap gap-6">
-        {recipes.map((recipe) => (
-          <div
+        {recipes.map((recipe, index) => (
+          <motion.div
             key={recipe.id}
-            className="card relative w-64 p-1 bg-green rounded-3xl cursor-pointer transition-all duration-500 hover:h-auto overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05, duration: 0.4 }}
+            className="card relative w-64 p-1 bg-secondary rounded-3xl cursor-pointer transition-all duration-500 hover:h-auto overflow-hidden"
           >
             <Link
               to={`/recipes/${recipe.id}`}
@@ -147,12 +151,11 @@ const RecipeList = () => {
                   alt={recipe.title}
                 />
               </div>
-
-              <p className="text-center text-sm font-semibold text-grayDark hover:text-lightPlum mt-2 p-1 sm:text-xs md:text-sm lg:text-base">
+              <p className="text-center text-sm font-semibold text-lightPlum hover:text-white mt-2 p-1 sm:text-xs md:text-sm lg:text-base">
                 {recipe.title}
               </p>
             </Link>
-          </div>
+          </motion.div>
         ))}
       </div>
     </>
