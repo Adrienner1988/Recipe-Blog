@@ -103,7 +103,7 @@ const AddRecipe = () => {
           </div>
 
           <div className="flex justify-center">
-            <div className="w-full max-w-2xl">
+            <div className="w-full max-w-lg px-4 sm:px-6 mx-auto">
               <form onSubmit={handleSubmit} className="bg-card p-8 rounded-lg shadow-lg border">
                 <div className="space-y-6">
                   <div>
