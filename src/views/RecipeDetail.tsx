@@ -91,6 +91,7 @@ const RecipeDetail = () => {
           <p><strong>Cook Time:</strong> {recipe.cook}</p>
           <p><strong>Servings:</strong> {recipe.serving}</p>
           <p><strong>Category:</strong> {recipe.categoryName}</p>
+          <p><strong>Author:</strong> {recipe.author || "Anonymous"}</p>
         </div>
       </div>
 

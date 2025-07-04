@@ -4,6 +4,8 @@ import { db, storage } from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { CategoryData, TimeOption, Servings } from "../types";
+import { useAuth } from "../hooks/useAuth";
+
 
 const AddRecipe = () => {
   const [title, setTitle] = useState("");
@@ -22,6 +24,7 @@ const AddRecipe = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -46,6 +49,8 @@ const AddRecipe = () => {
         steps: steps.split("\n"),
         image: imageUrl,
         createdAt: new Date(),
+        author: user?.displayName || "Anonymous",
+        authorId: user?.uid || "null",
       });
 
       alert("Thank you for sharing the yum!");
