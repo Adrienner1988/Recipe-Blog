@@ -7,13 +7,25 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, logout: async () => { } });
+const AuthContext = createContext<AuthContextType>({ 
+  user: null, 
+  logout: async () => { } });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
+
+  // Ensure displayName is updated immediately after login/signup
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, setUser);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        await user.reload(); // ensure we get the updated displayName
+        setUser(auth.currentUser); // get the freshly reloaded user
+      } else {
+        setUser(null);
+      }
+    });
+  
     return () => unsubscribe();
   }, []);
 

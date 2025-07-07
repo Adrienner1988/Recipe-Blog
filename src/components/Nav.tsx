@@ -5,11 +5,14 @@ import { LuChefHat } from "react-icons/lu";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import LoginModal from "./LoginModal";
+
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -41,10 +44,9 @@ const Nav = () => {
                   key={to}
                   to={to}
                   className={({ isActive }) =>
-                    `relative transition-colors px-3 py-2 rounded-full after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100 ${
-                      isActive
-                        ? "text-primary after:scale-x-100"
-                        : "text-muted-foreground hover:text-primary"
+                    `relative transition-colors px-3 py-2 rounded-full after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-primary after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100 ${isActive
+                      ? "text-primary after:scale-x-100"
+                      : "text-muted-foreground hover:text-primary"
                     }`
                   }
                 >
@@ -55,24 +57,24 @@ const Nav = () => {
               {/* User Authentication Links */}
 
               {user ? (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-4">
                   <span className="text-sm text-muted-foreground">
                     Welcome, {user.displayName || "User"}
                   </span>
                   <button
                     onClick={handleLogout}
-                    className="text-sm text-red-600 hover:underline"
+                    className="text-sm text-muted-foreground hover:text-red-500"
                   >
                     Logout
                   </button>
                 </div>
               ) : (
-                <NavLink
-                  to="/login"
+                <button
+                  onClick={() => setShowLogin(true)}
                   className="text-sm text-muted-foreground hover:text-primary"
                 >
                   Login
-                </NavLink>
+                </button>
               )}
             </nav>
 
@@ -104,10 +106,9 @@ const Nav = () => {
                       key={to}
                       to={to}
                       className={({ isActive }) =>
-                        `transition-colors hover:text-primary px-3 py-2 rounded-full ${
-                          isActive
-                            ? "text-primary bg-primary/10"
-                            : "hover:bg-accent hover:text-accent-foreground"
+                        `transition-colors hover:text-primary px-3 py-2 rounded-full ${isActive
+                          ? "text-primary bg-primary/10"
+                          : "hover:bg-accent hover:text-accent-foreground"
                         }`
                       }
                       onClick={() => setIsOpen(false)}
@@ -120,6 +121,7 @@ const Nav = () => {
             )}
           </AnimatePresence>
         </header>
+        <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
       </nav>
     </>
   );
