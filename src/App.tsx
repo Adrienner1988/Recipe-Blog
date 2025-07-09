@@ -6,6 +6,8 @@ import Nav from "./components/Nav.tsx";
 import './index.css';
 import AddRecipe from "./views/AddRecipe.tsx";
 import Footer from "./components/Footer.tsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <Route path="/add" element={<AddRecipe />} />
       </Routes>
       <Footer />
+      <ToastContainer position="top-center" autoClose={3000} />
     </>
   );
 }
