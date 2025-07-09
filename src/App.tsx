@@ -22,7 +22,13 @@ function App() {
         <Route path="/add" element={<AddRecipe />} />
       </Routes>
       <Footer />
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer position="top-center" autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss={false}
+        />
     </>
   );
 }
