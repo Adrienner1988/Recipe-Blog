@@ -127,11 +127,11 @@ const RecipeList = () => {
 
       {errorMessage && (
         <div className="flex justify-center items-center py-8">
-          <p className="text-grayDark">{errorMessage}</p>
+          <p className="text-primary">{errorMessage}</p>
         </div>
       )}
 
-      <div className="card-container flex justify-center items-center flex-wrap gap-6">
+      <div className="card-container flex justify-center items-center flex-wrap gap-6 px-4 pb-24">
         {recipes.map((recipe, index) => (
           <motion.div
             key={recipe.id}
@@ -151,7 +151,7 @@ const RecipeList = () => {
                   alt={recipe.title}
                 />
               </div>
-              <p className="text-center text-sm font-semibold text-lightPlum hover:text-white mt-2 p-1 sm:text-xs md:text-sm lg:text-base">
+              <p className="text-center text-sm font-semibold text-lightPlum hover:text-white mt-2 p-1 sm:text-xs md:text-sm lg:text-base min-h-[3rem]">
                 {recipe.title}
               </p>
             </Link>

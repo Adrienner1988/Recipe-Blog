@@ -32,7 +32,10 @@ const CategoryListContainer = () => {
     if (loading) return <p className="text-center text-plum">Loading categories...</p>;
     if (error) return <p className="text-center text-red-600">{error}</p>;
 
-    return <CategoriesList categories={categories} />;
+return (
+    <CategoriesList categories={categories} />
+    )
 };
+
 
 export default CategoryListContainer;
