@@ -3,6 +3,7 @@ import { collection, addDoc, Timestamp, doc, getDoc, getDocs } from "firebase/fi
 import { db } from "../firebase";
 import { Recipe, Comment } from "../types";
 import Button from "./Button";
+import { toast } from "react-toastify";
 
 interface AddCommentProps {
   id: string;
@@ -31,6 +32,7 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
       // Re-fetch recipe and comments
       const recipeSnap = await getDoc(recipeRef);
       const commentSnap = await getDocs(commentRef);
+
       const recipeData = recipeSnap.data();
       const comments = commentSnap.docs.map((doc) => ({
         ...(doc.data() as Comment),
@@ -54,11 +56,11 @@ const AddComment = ({ id, setRecipe }: AddCommentProps) => {
         });
       }
       setText("");
+      toast.success("🎉 Thanks for rating this recipe!");
       console.log("Comment submitted successfully");
-      alert("Thank you for the rating this recipe!");
     } catch (error) {
+      toast.error("🚫 Rating not submitted. Please try again.");
       console.error("Error submitting comment:", error);
-      alert("Rating not submitted, please try again.");
     }
   };
 
