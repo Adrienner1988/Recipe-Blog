@@ -1,5 +1,4 @@
-# Recipe Rainbow
-
+# Recipe Rainbow 
 ![Project Screenshot](src/images/RecipeRainbow.png)
 ![Project Screenshot](src/images/RecipeRainbow1.png)
 
@@ -16,92 +15,128 @@
 - [License](#license)
 
 ## About
-Recipe Rainbow is a responsive web app for discovering and sharing recipes. Users can browse various categories, view detailed recipe instructions, add their recipes, and even leave comments. The app focuses on user-friendly design and functionality, ensuring a smooth experience across different screen sizes.
+**Recipe Rainbow** is a full-stack recipe sharing app where users can explore dishes by category, submit their own, and leave comments. Built for responsiveness, usability, and visual appeal, the project emphasizes clean UI/UX with dynamic animations and Firebase integration for real-time data.
 
-## Video
+## 🎥 Video
 [Watch the demo](https://drive.google.com/file/d/14dXzJiPp_9B2hRA9IOCMb-6wyfjHAqwh/view?usp=drive_link)
 
-## Tech
-A list of the technologies and tools used in the project:
+## 🛠 Tech Stack
+
+**Frontend:**
 - React
-- Django 
-- Netlify
-- Render
-- HTML5
-- JavaScript ES6
-- Python
+- TypeScript
 - Tailwind CSS
 - React Router
+- Framer Motion
+- React Toastify
 - Google Fonts
-- Motion for React (Farmer Motion)
 
-## Getting Started
+**Backend:**
+- Firebase Firestore (updated from Django)
+- Firebase Auth & Storage
+- Django 
+- Python
+
+**Hosting & Deployment:**
+- Netlify
+- Render
+
+*Legacy backend (Django) still present but replaced with Firebase for real-time features.*
+
+
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js
+- Firebase account
 - Python/Django (Backend)
 
 ### Usage
-You can access the live version of the application here: [Live Demo](https://reciperainbow.netlify.app/)
+Try it here: [Live Demo](https://reciperainbow.netlify.app/)
 
 ### Cloning the Repository (Optional)
-If you still want to clone the repository and explore the code:
-1. Clone the repository: `git clone https://github.com/Adrienner1988/recipe-rainbow.git`
-2. Clone the repository: `git clone https://github.com/Adrienner1988/Recipe Blog.git`
-3. Navigate to the project directory: `cd recipe-rainbow`
-3. Navigate to the project directory: `cd Recipe Blog`
-5. Install dependencies: `npm install`
-6. Start the backend server: `python manage.py runserver`
-7. Start the development server: `npm start`
+```bash
+git clone https://github.com/Adrienner1988/recipe-rainbow.git
+cd recipe-rainbow
+npm install
+npm run dev
 
 ## Code Examples
 ```javascript
-const AddRecipe = () => {
-  const [title, setTitle] = useState("");
-  const [prep, setPrep] = useState(0);
-  const [prepOptions, setPrepOptions] = useState<TimeOption[]>([]);
-  const [cook, setCook] = useState(0);
-  const [cookOptions, setCookOptions] = useState<TimeOption[]>([]);
-  const [serving, setServing] = useState(0);
-  const [servingOptions, setServingOptions] = useState<Servings[]>([]);
-  const [category, setCategory] = useState(0);
-  const [categoryOptions, setCategoryOptions] = useState<Category[]>([]);
-  const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+const handleSubmit = async (event: React.FormEvent) => {
+  event.preventDefault();
+  setLoading(true);
 
-  const navigate = useNavigate();
+  try {
+    const imageRef = ref(storage, `recipes/${image.name}-${Date.now()}`);
+    await uploadBytes(imageRef, image);
+    const imageUrl = await getDownloadURL(imageRef);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+    await addDoc(collection(db, "recipe"), {
+      title,
+      prep,
+      cook,
+      serving,
+      categoryId: category,
+      ingredients: ingredients.split("\n"),
+      steps: steps.split("\n"),
+      image: imageUrl,
+      author: user?.displayName || "Anonymous",
+      authorId: user?.uid || "null",
+      createdAt: new Date(),
+    });
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("prep", prep.toString());
-    formData.append("cook", cook.toString());
-    formData.append("serving", serving.toString());
-    formData.append("category", category.toString());
-    formData.append("ingredients", ingredients);
-    formData.append("steps", steps);
-    if (image) {
-      formData.append("image", image);
-    }
+    toast.success("Recipe added!");
+    navigate(`/recipes`);
+  } catch (error) {
+    toast.error("Something went wrong.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 ```
 
-## Features
-- Browse various recipe categories
-- View detailed recipe instructions and ingredients
-- Adding recipes to the collection
-- Recipe feedback commenting system
-- Responsive design for seamless mobile and desktop use
-- Intuitive, easy-to-use interface.
+## ✨ Features
+-Browse and filter by recipe categories
+-Submit your own recipes with image
+-Responsive layout (mobile-first)
+-Detailed recipe view with ingredients and steps
+-Commenting system per recipe
+-Firebase Auth (email + password)
+-Attribution of recipes to signed-in users
+-Toast notifications for feedback (login, logout, error, navigation)
+-Animated UI transitions (Framer Motion)
+-Lazy-loaded routes + loading spinner
 
-## Status
+
+## 🔧 Recent Improvements
+🔁 Firebase Refactor: Swapped out Django for Firestore (auth, storage, real-time DB)
+
+👥 User Auth: Email/password login via Firebase with user-based recipe attribution
+
+🔐 Custom useAuth Hook: Global auth state management
+
+🍞 Toastify Alerts: Seamless UX feedback (success, error, info)
+
+🎬 Framer Motion Animations: Animated nav, cards, modals, and mobile menu
+
+📱 Responsive Polish: Spacing fixes for category cards on small screens
+
+🧭 Better UX: Category click toast ("Getting recipes for…") + delayed navigation
+
+💡 Lazy Loading: Routes are now lazy-loaded with a smooth fallback spinner
+
+🔢 Sorted Dropdowns: Time and serving options sorted numerically for better form UX
+
+
+## 📈 Status
 Recipe Rainbow is currently in a completed state with all core features functional. 
 
 ## Why
-This project allowed me to explore full-stack development with React on the frontend and Django on the backend. It represents a combination of my passion for user-friendly design and robust functionality, making it a key project in my portfolio.
+This project reflects my ability to manage frontend complexity, UX concerns, and full-stack integration using modern web tools. It grew from a basic CRUD app into a polished, animated experience powered by Firebase and React.
+
 
 ## Contact
 - Email: `adriennerdaniels@gmail.com`
