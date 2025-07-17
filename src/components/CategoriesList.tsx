@@ -36,7 +36,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ categories }) => {
       </motion.h2>
 
       <motion.div
-        className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 place-items-center"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-6 gap-y-8 px-2 sm:px-6 md:px-10 place-items-center"
         initial="hidden"
         whileInView="visible"
         transition={{ staggerChildren: 0.1 }}

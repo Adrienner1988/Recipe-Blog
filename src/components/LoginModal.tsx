@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { useAuth } from "../hooks/useAuth";
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -14,6 +15,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     const [name, setName] = useState("");
     const [isSignup, setIsSignup] = useState(false);
     const [error, setError] = useState("");
+    const { login } = useAuth();
 
     const handleAuth = async () => {
         setError("");
