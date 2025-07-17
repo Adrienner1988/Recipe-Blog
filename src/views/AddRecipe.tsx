@@ -74,22 +74,25 @@ const AddRecipe = () => {
         );
 
         const prepSnap = await getDocs(collection(db, "timeOption"));
+        const sortedPrepDocs = prepSnap.docs.sort((a, b) => parseInt((a.data() as TimeOption).time) - parseInt((b.data() as TimeOption).time));
         setPrepOptions(
-          prepSnap.docs.map(
+          sortedPrepDocs.map(
             (doc) => ({ id: doc.id, ...doc.data() } as TimeOption)
           )
         );
 
         const cookSnap = await getDocs(collection(db, "timeOption"));
+        const sortedCookDocs = cookSnap.docs.sort((a, b) => parseInt((a.data() as TimeOption).time) - parseInt((b.data() as TimeOption).time));
         setCookOptions(
-          cookSnap.docs.map(
+          sortedCookDocs.map(
             (doc) => ({ id: doc.id, ...doc.data() } as TimeOption)
           )
         );
 
         const servSnap = await getDocs(collection(db, "servings"));
+        const sortedServDocs = servSnap.docs.sort((a, b) => parseInt((a.data() as Servings).serving) - parseInt((b.data() as Servings).serving));
         setServingOptions(
-          servSnap.docs.map(
+          sortedServDocs.map(
             (doc) => ({ id: doc.id, ...doc.data() } as Servings)
           )
         );
