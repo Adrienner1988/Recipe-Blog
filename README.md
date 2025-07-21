@@ -100,7 +100,7 @@ const handleSubmit = async (event: React.FormEvent) => {
 
 ## ✨ Features
 -Browse and filter by recipe categories
--Submit your own recipes with image
+-Submit your recipes with an image
 -Responsive layout (mobile-first)
 -Detailed recipe view with ingredients and steps
 -Commenting system per recipe
